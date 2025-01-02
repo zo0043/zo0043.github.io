@@ -1,9 +1,9 @@
 # ~~~~~~~~~
 # hugo 本身的配置
 # ~~~~~~~~~
-baseURL: "https://sonnycalcr.github.io/" # 主站的 URL
-title: SonnyCalcr's Blog # 站点标题
-copyright: "[©2024 SonnyCalcr's Blog](https://sonnycalcr.github.io/)" # 网站的版权声明，通常显示在页脚
+baseURL: "https://zo0043.github.io/" # 主站的 URL
+title: zo0043's Blog # 站点标题
+copyright: "[©2024 zo0043's Blog](https://zo0043.github.io/)" # 网站的版权声明，通常显示在页脚
 theme: PaperMod # 主题
 languageCode: zh-cn # 语言
 
@@ -82,29 +82,29 @@ params:
       也可以在其他地方访问我的文字材料，如下：
       <br>
       <div>
-      ● [SonnyCalcr's Notion](https://www.notion.so/luflyan/b5ee8643e563498b96c6b7ab0f27343b)
+      ● [zo0043's Notion](https://www.notion.so/luflyan/b5ee8643e563498b96c6b7ab0f27343b)
       <br>
       ● [博客园](https://www.cnblogs.com/fanlumaster)
       <br>
-      ● My personal username of Discord is sonnycalcr, and, welcome to my [Discord Group/Server](https://discord.gg/HCebZMrfhE), maybe just to talk about some simple problems.
+      ● My personal username of Discord is zo0043, and, welcome to my [Discord Group/Server](https://discord.gg/HCebZMrfhE), maybe just to talk about some simple problems.
       </div>
   # 社交帐号的按钮
   socialIcons:
     - name: github
       title: Follow my Github
-      url: "https://github.com/sonnycalcr"
+      url: "https://github.com/zo0043"
     - name: X
       title: Follow my Twitter
-      url: "https://x.com/sonnycalcr"
+      url: "https://x.com/zo0043"
     - name: Bilibili
       title: 关注我的 B 站帐号
       url: "https://space.bilibili.com/3493138859559908"
     - name: Youtube
       title: Follow my Youtube Channel
-      url: "https://youtube.com/@sonnycalcr"
+      url: "https://youtube.com/@zo0043"
     - name: Telegram
       title: Contact Me
-      url: "https://t.me/sonnycalcr"
+      url: "https://t.me/zo0043"
 
   # 搜索
   fuseOpts:
@@ -128,7 +128,7 @@ params:
 
   # 评论的设置
   giscus:
-    repo: "sonnycalcr/sonnycalcr.github.io"
+    repo: "zo0043/zo0043.github.io"
     repoId: "R_kgDOMed_Fg"
     category: "Announcements"
     categoryId: "DIC_kwDOMed_Fs4ChXJF"
