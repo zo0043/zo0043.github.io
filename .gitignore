@@ -3,6 +3,8 @@
 *.a
 *.so
 .commitLogs/
+.obsidian/
+/.obsidian
 # Folders
 _obj
 _test
