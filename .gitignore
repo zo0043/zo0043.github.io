@@ -2,7 +2,7 @@
 *.o
 *.a
 *.so
-
+.commitLogs/
 # Folders
 _obj
 _test
