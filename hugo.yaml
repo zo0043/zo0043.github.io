@@ -77,34 +77,25 @@ params:
     Title: "Hey Guys 👋"
     # 首页的 profile 内容
     Content: >
-      Welcome to my Blog! 这里主要记录了我的视频创作的一些补充说明材料。博客因为是托管在 Github 上面，以及，图床使用的是国外免费的 Postimages，所以，挂上一个梯子可能会让访问更加顺畅。
-      <br>
-      也可以在其他地方访问我的文字材料，如下：
-      <br>
-      <div>
-      ● [zo0043's Notion](https://www.notion.so/luflyan/b5ee8643e563498b96c6b7ab0f27343b)
-      <br>
-      ● [博客园](https://www.cnblogs.com/fanlumaster)
-      <br>
-      ● My personal username of Discord is zo0043, and, welcome to my [Discord Group/Server](https://discord.gg/HCebZMrfhE), maybe just to talk about some simple problems.
+      Welcome to my Blog! 
       </div>
   # 社交帐号的按钮
   socialIcons:
     - name: github
       title: Follow my Github
       url: "https://github.com/zo0043"
-    - name: X
-      title: Follow my Twitter
-      url: "https://x.com/zo0043"
-    - name: Bilibili
-      title: 关注我的 B 站帐号
-      url: "https://space.bilibili.com/3493138859559908"
-    - name: Youtube
-      title: Follow my Youtube Channel
-      url: "https://youtube.com/@zo0043"
-    - name: Telegram
-      title: Contact Me
-      url: "https://t.me/zo0043"
+    # - name: X
+    #   title: Follow my Twitter
+    #   url: "https://x.com/zo0043"
+    # - name: Bilibili
+    #   title: 关注我的 B 站帐号
+    #   url: "https://space.bilibili.com/3493138859559908"
+    # - name: Youtube
+    #   title: Follow my Youtube Channel
+    #   url: "https://youtube.com/@zo0043"
+    # - name: Telegram
+    #   title: Contact Me
+    #   url: "https://t.me/zo0043"
 
   # 搜索
   fuseOpts:
