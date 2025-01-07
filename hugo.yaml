@@ -129,9 +129,9 @@ params:
   # 评论的设置
   giscus:
     repo: "zo0043/zo0043.github.io"
-    repoId: "R_kgDOMed_Fg"
+    repoId: "R_kgDONlCa8A"
     category: "Announcements"
-    categoryId: "DIC_kwDOMed_Fs4ChXJF"
+    categoryId: "DIC_kwDONlCa8M4Cl0PX"
     mapping: "pathname"
     strict: "0"
     reactionsEnabled: "1"
