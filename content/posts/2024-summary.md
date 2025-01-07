@@ -1,8 +1,8 @@
-+++
-title = '2024-summary'
-date = 2025-01-03T01:02:29+08:00
-categories = ["年度"]
-tags = ["summary","2024"]
-+++
+---
+title : '2024-summary'
+date : "2025-01-03T01:02:29+08:00"
+categories : ["年度"]
+tags : ["summary","2024"]
+---
 
-几个月前也简单安装过 Hyprland，在 nixos 发行版上。只是由于当时时间不够，就没有怎么深入去配置，导致最终的使用体验其实比较糟糕。所以最终是放弃了体验。
+TODO
