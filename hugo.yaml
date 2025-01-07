@@ -110,11 +110,11 @@ params:
       includeMatches: true
   # 设置网站的标签页的图标，即 favicon
   assets:
-      favicon: "169220140.png"
-      favicon16x16: "169220140_16x16.ico"
-      favicon32x32: "169220140_32x32.ico"
-      apple_touch_icon: "169220140.png"
-      safari_pinned_tab: "169220140.png"
+      favicon: "zo.png"
+      favicon16x16: "zo0043_16x16.ico"
+      favicon32x32: "zo0043_32x32.ico"
+      apple_touch_icon: "zo0043.png"
+      safari_pinned_tab: "zo0043.png"
       disableHLJS: true
 
   # 评论的设置
