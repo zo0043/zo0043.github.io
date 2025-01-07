@@ -1,0 +1,112 @@
+{{ define "main" }}
+  <div class="weekly-container">
+    <h1 class="weekly-title">周刊</h1>
+    <p class="weekly-description">这里是所有标记为「weekly」的文章列表，每周精选内容供你阅读。</p>
+
+    <div class="weekly-list">
+      {{ range where .Site.RegularPages "Params.tags" "intersect" (slice "weekly") }}
+        <article class="weekly-item">
+          <h2 class="weekly-item-title">
+            <a href="{{ .RelPermalink }}">{{ .Title }}</a>
+          </h2>
+          <div class="weekly-item-meta">
+            <span class="weekly-item-date">{{ .Date.Format "2006年1月2日" }}</span>
+            <span class="weekly-item-tags">
+              {{ range .Params.tags }}
+                <span class="tag">{{ . }}</span>
+              {{ end }}
+            </span>
+          </div>
+          <p class="weekly-item-summary">{{ .Summary }}</p>
+        </article>
+      {{ end }}
+    </div>
+  </div>
+
+  <style>
+    /* 基础样式 */
+    .weekly-container {
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 20px;
+      font-family: Arial, sans-serif;
+      color: #333;
+    }
+
+    .weekly-title {
+      font-size: 2.5rem;
+      text-align: center;
+      margin-bottom: 20px;
+      color: #2c3e50;
+    }
+
+    .weekly-description {
+      font-size: 1.1rem;
+      text-align: center;
+      color: #666;
+      margin-bottom: 40px;
+    }
+
+    .weekly-list {
+      display: flex;
+      flex-direction: column;
+      gap: 30px;
+    }
+
+    .weekly-item {
+      background: #9B9C9D;
+      border-radius: 8px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      padding: 20px;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+
+    .weekly-item:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+    }
+
+    .weekly-item-title {
+      font-size: 1.5rem;
+      margin-bottom: 10px;
+    }
+
+    .weekly-item-title a {
+      color: #2c3e50;
+      text-decoration: none;
+    }
+
+    .weekly-item-title a:hover {
+      color: #1abc9c;
+    }
+
+    .weekly-item-meta {
+      font-size: 0.9rem;
+      color: #666;
+      margin-bottom: 10px;
+    }
+
+    .weekly-item-date {
+      margin-right: 10px;
+    }
+
+    .weekly-item-tags {
+      display: inline-flex;
+      gap: 5px;
+    }
+
+    .tag {
+      background: #e0f7fa;
+      color: #00796b;
+      padding: 2px 8px;
+      border-radius: 4px;
+      font-size: 0.8rem;
+    }
+
+    .weekly-item-summary {
+      font-size: 1rem;
+      color: #444;
+      line-height: 1.6;
+    }
+  </style>
+{{ end }}

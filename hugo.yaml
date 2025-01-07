@@ -25,7 +25,6 @@ languages:
     taxonomies: # 分类系统
       category: categories
       tag: tags
-      weekly: weekly
     # https://gohugo.io/content-management/menus/#define-in-site-configuration
     menus:
       main:
@@ -41,7 +40,7 @@ languages:
         - name: 标签
           pageRef: tags/
           weight: 10
-        - name: weekly
+        - name: 周刊
           pageRef: weekly/
           weight: 15
         - name: 搜索

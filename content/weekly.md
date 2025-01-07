@@ -1,6 +1,4 @@
 ---
-title: "weekly"
+title: "Weekly Articles"
 layout: "weekly"
-url: "/weekly/"
-summary: weekly
 ---
