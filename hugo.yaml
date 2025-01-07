@@ -25,6 +25,7 @@ languages:
     taxonomies: # 分类系统
       category: categories
       tag: tags
+      weekly: weekly
     # https://gohugo.io/content-management/menus/#define-in-site-configuration
     menus:
       main:
