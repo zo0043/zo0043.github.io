@@ -30,7 +30,7 @@ languages:
       main:
         - name: 首页
           pageRef: /
-          weight: 4 # 控制在页面上展示的前后顺序
+          weight: 5 # 控制在页面上展示的前后顺序
         - name: 归档
           pageRef: archives/
           weight: 5
@@ -40,6 +40,9 @@ languages:
         - name: 标签
           pageRef: tags/
           weight: 10
+        - name: weekly
+          pageRef: weekly/
+          weight: 15
         - name: 搜索
           pageRef: search/
           weight: 20

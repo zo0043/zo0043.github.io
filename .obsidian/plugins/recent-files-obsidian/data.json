@@ -1,6 +1,34 @@
 {
   "recentFiles": [
     {
+      "basename": "archives",
+      "path": "content/archives.md"
+    },
+    {
+      "basename": "search",
+      "path": "content/search.md"
+    },
+    {
+      "basename": "weekly",
+      "path": "content/weekly.md"
+    },
+    {
+      "basename": "about",
+      "path": "content/about.md"
+    },
+    {
+      "basename": "2025-plan",
+      "path": "content/posts/2025-plan.md"
+    },
+    {
+      "basename": "2024-summary",
+      "path": "content/posts/2024-summary.md"
+    },
+    {
+      "basename": "README",
+      "path": "README.md"
+    },
+    {
       "basename": "xxxx",
       "path": "content/posts/xxxx.md"
     },
@@ -11,10 +39,6 @@
     {
       "basename": "weekly-001 年度计划",
       "path": "content/posts/weekly-001 年度计划.md"
-    },
-    {
-      "basename": "about",
-      "path": "content/about.md"
     },
     {
       "basename": "default",
