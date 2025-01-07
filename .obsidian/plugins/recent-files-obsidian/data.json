@@ -1,0 +1,16 @@
+{
+  "recentFiles": [
+    {
+      "basename": "about",
+      "path": "content/about.md"
+    },
+    {
+      "basename": "default",
+      "path": "archetypes/default.md"
+    }
+  ],
+  "omittedPaths": [],
+  "omittedTags": [],
+  "updateOn": "file-open",
+  "omitBookmarks": false
+}
