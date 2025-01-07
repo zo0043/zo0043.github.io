@@ -2,7 +2,7 @@
 title : '{{ replace .File.ContentBaseName "-" " " | title }}'
 date : {{ .Date }}
 categories : []
-tags : []
+tags : ["2025"]
 ---
 
 
