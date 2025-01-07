@@ -1,0 +1,4 @@
+{
+  "folders": "^themes\n^static\n^public\n^layouts\n^assets\n^archetypes",
+  "enable": true
+}
