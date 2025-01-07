@@ -1,8 +1,9 @@
 {
-  "vimMode": true,
+  "vimMode": false,
   "strictLineBreaks": true,
   "showInlineTitle": true,
   "promptDelete": false,
   "newLinkFormat": "absolute",
-  "spellcheck": false
+  "spellcheck": false,
+  "livePreview": false
 }

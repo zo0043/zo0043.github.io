@@ -1,6 +1,6 @@
 [
-  "cm-chs-patch",
   "remember-cursor-position",
   "obsidian-excalidraw-plugin",
-  "obsidian-export-image"
+  "obsidian-export-image",
+  "obsidian-linter"
 ]
