@@ -33,10 +33,6 @@
       "path": "README.md"
     },
     {
-      "basename": "build-a-blog-using-hugo-papermod-github-pages",
-      "path": "content/posts/build-a-blog-using-hugo-papermod-github-pages.md"
-    },
-    {
       "basename": "default",
       "path": "archetypes/default.md"
     }
