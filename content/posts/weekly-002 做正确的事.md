@@ -1,6 +1,6 @@
 ---
-title : 'weekly-001 年度计划'
-date : "2025-01-05T01:02:29+08:00"
+title : 'weekly-002 做正确的事'
+date : "2025-01-12T01:02:29+08:00"
 categories : ["weekly"]
 tags : ["weekly","2025"]
 ---
