@@ -1,16 +1,16 @@
 {
   "recentFiles": [
     {
+      "basename": "weekly-002 做正确的事",
+      "path": "content/posts/weekly-002 做正确的事.md"
+    },
+    {
       "basename": "weekly-001 年度计划",
       "path": "content/posts/weekly-001 年度计划.md"
     },
     {
-      "basename": "2024-summary",
-      "path": "content/posts/2024-summary.md"
-    },
-    {
-      "basename": "2025-plan",
-      "path": "content/posts/2025-plan.md"
+      "basename": "README",
+      "path": "README.md"
     },
     {
       "basename": "weekly",
@@ -29,8 +29,12 @@
       "path": "content/about.md"
     },
     {
-      "basename": "README",
-      "path": "README.md"
+      "basename": "2024-summary",
+      "path": "content/posts/2024-summary.md"
+    },
+    {
+      "basename": "2025-plan",
+      "path": "content/posts/2025-plan.md"
     },
     {
       "basename": "default",
