@@ -1,24 +1,32 @@
 {
   "recentFiles": [
     {
-      "basename": "2025-plan",
-      "path": "content/posts/2025-plan.md"
-    },
-    {
-      "basename": "weekly-001 年度计划",
-      "path": "content/posts/weekly-001 年度计划.md"
+      "basename": "weekly-004 春节",
+      "path": "content/posts/weekly-004 春节.md"
     },
     {
       "basename": "weekly-003 身体健康最重要",
       "path": "content/posts/weekly-003 身体健康最重要.md"
     },
     {
-      "basename": "about",
-      "path": "content/about.md"
-    },
-    {
       "basename": "weekly-002 做正确的事",
       "path": "content/posts/weekly-002 做正确的事.md"
+    },
+    {
+      "basename": "weekly-001 年度计划",
+      "path": "content/posts/weekly-001 年度计划.md"
+    },
+    {
+      "basename": "2024-summary",
+      "path": "content/posts/2024-summary.md"
+    },
+    {
+      "basename": "2025-plan",
+      "path": "content/posts/2025-plan.md"
+    },
+    {
+      "basename": "about",
+      "path": "content/about.md"
     },
     {
       "basename": "archives",
@@ -31,10 +39,6 @@
     {
       "basename": "weekly",
       "path": "content/weekly.md"
-    },
-    {
-      "basename": "2024-summary",
-      "path": "content/posts/2024-summary.md"
     },
     {
       "basename": "README",
