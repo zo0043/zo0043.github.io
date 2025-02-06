@@ -1,6 +1,10 @@
 {
   "recentFiles": [
     {
+      "basename": "README",
+      "path": "README.md"
+    },
+    {
       "basename": "weekly-004 春节",
       "path": "content/posts/weekly-004 春节.md"
     },
@@ -39,10 +43,6 @@
     {
       "basename": "weekly",
       "path": "content/weekly.md"
-    },
-    {
-      "basename": "README",
-      "path": "README.md"
     },
     {
       "basename": "default",
