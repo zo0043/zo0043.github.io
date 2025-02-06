@@ -1,5 +1,5 @@
 ---
-title : 'Weekly 004 春节'
+title : 'Weekly-004 春节'
 date : 2025-02-06T23:03:15+08:00
 categories : ["weekly"]
 tags : ["weekly","2025"]
