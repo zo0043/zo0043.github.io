@@ -1,0 +1,99 @@
+/* https://editor.mdnice.com/?outId=3cd5a2d0db4b47f78baf9690e580e489 */
+
+#nice {
+    background-color: #f9f5e3; /* 浅米黄背景 */
+    padding: 30px;
+    font-family: "宋体", SimSun, serif;
+}
+
+#nice p {
+    border: 1px solid #b29600; /* 金丝边框 */
+    padding: 15px;
+    border-radius: 3px;
+    margin: 10px 0;
+    background: linear-gradient(45deg, #fff8f0 30%, #fffff8 100%);
+    color: #634632; /* 茶褐色正文 */
+}
+
+#nice h1 {
+    border-left: 5px solid #c33; /* 朱砂红装饰线 */
+    padding-left: 15px;
+    margin: 20px 0;
+}
+
+#nice h1 .content {
+    color: #2a3132; /* 水墨黑 */
+    font-size: 28px;
+    font-weight: bold;
+    text-shadow: 1px 1px 1px rgba(0,0,0,0.1);
+}
+
+#nice h1 .prefix,
+#nice h1 .suffix {
+    color: #c33; /* 朱砂红 */
+}
+
+#nice h2 {
+    border-bottom: 2px solid #2a6f97; /* 黛青色下划线 */
+    padding-bottom: 5px;
+}
+
+#nice h2 .content {
+    color: #2a6f97; /* 黛青色 */
+    font-size: 24px;
+  text-align: center;
+}
+
+#nice h3 .content {
+    color: #755840; /* 深赭石色 */
+    font-size: 20px;
+}
+
+#nice ul {
+    list-style-type: "❁ "; /* 花型项目符号 */
+    color: #c33;
+}
+
+#nice ol {
+    list-style-type: cjk-ideographic; /* 中文数字编号 */
+}
+
+#nice .multiquote-1 {
+    border-left: 3px solid #b29600; /* 金丝边框 */
+    background-color: #fcf8e8;
+    padding: 15px;
+    margin: 10px 0;
+}
+
+#nice a {
+    color: #2a6f97; /* 黛青色 */
+    text-decoration: underline dashed;
+}
+
+#nice strong {
+    color: #c33; /* 朱砂红强调 */
+}
+
+#nice img {
+    border: 2px solid #b29600;
+    box-shadow: 3px 3px 10px rgba(0,0,0,0.1);
+    border-radius: 3px;
+}
+
+#nice table tr th,
+#nice table tr td {
+    border: 1px solid #d4c49f; /* 淡金色边框 */
+    background-color: #f9f5e3;
+}
+
+#nice .footnote-word {
+    color: #755840;
+    font-size: 14px;
+}
+
+/* 传统色谱搭配 */
+#nice code {
+    background-color: #f3eada;
+    color: #755840;
+    border: 1px solid #d4c49f;
+}
