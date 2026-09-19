@@ -1,24 +1,57 @@
 {{- define "main" }}
 
-<header class="page-header">
-  <h1>{{ .Title }}</h1>
-  {{- if .Description }}
-  <div class="post-description">
-    {{ .Description }}
+<div class="about-page">
+  <header class="page-header">
+    <h1>{{ .Title }}</h1>
+    {{- if .Description }}
+    <div class="post-description">
+      {{ .Description }}
+    </div>
+    {{- end }}
+  </header>
+
+  {{- with site.Params.profileMode }}
+  {{- if .imageUrl }}
+  <div class="about-card about-card-hero">
+    <img src="{{ .imageUrl | absURL }}" alt="{{ .imageTitle | default "avatar" }}" title="{{ .imageTitle }}"
+      width="{{ .imageWidth | default 120 }}" height="{{ .imageHeight | default 120 }}" />
+    <div>
+      <h2>{{ .title | default site.Title }}</h2>
+      <p>{{ .subtitle | markdownify }}</p>
+      <div class="about-links">
+        {{- partial "social_icons.html" (dict "align" "left") }}
+      </div>
+    </div>
   </div>
   {{- end }}
-</header>
+  {{- end }}
 
-<section>
-  <br>
-  {{ .Content }}
-</section>
+  {{- if .Content }}
+  <div class="about-card">
+    {{ .Content }}
+  </div>
+  {{- end }}
+</div>
 
 <style>
-  .main {
-    a {
-      color: var(--link-color);
-    }
+  .about-card-hero {
+    display: flex;
+    align-items: center;
+    gap: 1.4rem;
+  }
+  .about-card-hero img {
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+  .about-card-hero h2 {
+    margin-bottom: 0.4rem;
+  }
+  .about-card-hero p {
+    color: var(--secondary);
+  }
+  .about-links .social-icons {
+    justify-content: flex-start;
+    margin-top: 0.6rem;
   }
 </style>
 

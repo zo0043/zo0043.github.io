@@ -1,30 +1,38 @@
+/* ============================================================
+   深蓝科技风主题色覆盖（覆盖 themes/PaperMod 的 theme-vars.css）
+   只改 CSS 变量，不动主题源码；PaperMod 升级不冲突。
+   ============================================================ */
 :root {
     --gap: 24px;
     --content-gap: 20px;
-    --nav-width: 1024px;
-    --main-width: 720px;
+    --nav-width: 1080px;
+    --main-width: 760px;
     --header-height: 60px;
     --footer-height: 60px;
-    --radius: 8px;
-    --theme: rgb(255, 255, 255);
+    --radius: 10px;
+    /* 亮色：清爽浅蓝灰底 + 深蓝主色 */
+    --theme: rgb(246, 248, 252);
     --entry: rgb(255, 255, 255);
-    --primary: rgb(30, 30, 30);
-    --secondary: rgb(108, 108, 108);
-    --tertiary: rgb(214, 214, 214);
-    --content: rgb(31, 31, 31);
-    --code-block-bg: rgb(245, 245, 245);
-    --code-bg: rgb(245, 245, 245);
-    --border: rgb(238, 238, 238);
+    --primary: rgb(15, 35, 68);
+    --secondary: rgb(92, 108, 132);
+    --tertiary: rgb(210, 220, 235);
+    --content: rgb(28, 44, 70);
+    --code-block-bg: rgb(240, 244, 250);
+    --code-bg: rgb(240, 244, 250);
+    --border: rgb(222, 230, 242);
+    --link-color: rgb(29, 96, 192); /* 深蓝链接 */
 }
 
 .dark {
-    --theme: rgb(29, 30, 32);
-    --entry: rgb(46, 46, 51);
-    --primary: rgb(218, 218, 219);
-    --secondary: rgb(155, 156, 157);
-    --tertiary: rgb(65, 66, 68);
-    --content: rgb(196, 196, 197);
-    --code-block-bg: rgb(46, 46, 51);
-    --code-bg: rgb(46, 46, 51);
-    --border: rgb(51, 51, 51);
+    /* 暗色：深海蓝黑底 + 亮蓝点缀 */
+    --theme: rgb(10, 16, 28);
+    --entry: rgb(18, 28, 46);
+    --primary: rgb(225, 232, 245);
+    --secondary: rgb(140, 152, 175);
+    --tertiary: rgb(40, 56, 82);
+    --content: rgb(205, 214, 230);
+    --code-block-bg: rgb(16, 26, 44);
+    --code-bg: rgb(16, 26, 44);
+    --border: rgb(38, 52, 78);
+    --link-color: rgb(96, 160, 255); /* 亮蓝链接 */
 }

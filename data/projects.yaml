@@ -1,0 +1,20 @@
+# ===== 首页「精选项目」区块数据 =====
+# 每项显示在首页名片下方。name 必填，url/desc/tags 可选。
+# 编辑这个文件即可更新首页项目展示，无需改模板。
+projects:
+  - name: quantbot
+    url: "https://github.com/zo0043/quantbot"
+    desc: "AI 量化机器人桌面前端（React + TypeScript + Wails）"
+    tags: ["Quant", "React", "Wails"]
+  - name: ai-job
+    url: "https://github.com/zo0043/ai-job"
+    desc: "AI 求职助手：7×24 在线找工作、自动投递简历"
+    tags: ["AI", "求职", "Java"]
+  - name: TechSpar
+    url: "https://github.com/zo0043/TechSpar"
+    desc: "AI 驱动的八股文面试备战系统，越练越懂你"
+    tags: ["AI", "面试", "长期记忆"]
+  - name: x-reader
+    url: "https://github.com/zo0043/x-reader"
+    desc: "通用内容阅读器：聚合 7+ 平台内容，统一消化"
+    tags: ["阅读", "聚合", "RSS"]

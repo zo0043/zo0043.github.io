@@ -1,9 +1,9 @@
 # ~~~~~~~~~
 # hugo 本身的配置
 # ~~~~~~~~~
-baseURL: "https://zo0043.github.io/" # 主站的 URL
-title: zo0043's Blog # 站点标题
-copyright: "[©2024 zo0043's Blog](https://zo0043.github.io/)" # 网站的版权声明，通常显示在页脚
+baseURL: "https://blog.zero43.top/" # 主站域名
+title: zo0043 # 站点标题
+copyright: "[©2024 zo0043](https://blog.zero43.top/)" # 网站的版权声明，通常显示在页脚
 theme: PaperMod # 主题
 languageCode: zh-cn # 语言
 
@@ -58,7 +58,7 @@ pagination:
 
 params:
   env: production # to enable google analytics, opengraph, twitter-cards and schema.
-  description: "Theme PaperMod - https://github.com/adityatelange/hugo-PaperMod"
+  description: "zo0043 的个人主页 — 记录才能记忆，量变引发质变。"
   author: zo0043
   defaultTheme: dark # 默认是暗色背景
   ShowShareButtons: false # 关闭分享的按钮
@@ -75,22 +75,37 @@ params:
   images: ["https://i.postimg.cc/7hwBy7VS/calcr.png"] # 缺省的图片，比如，博客的封面
   DateFormat: "2006-01-02" # 这个时间是作者自己写的，只能这样写
 
-  # 首页的文章上方的一些信息
-  homeInfoParams:
-    # 首页的 profile 内容
-    Title: "Hey Guys 👋"
-    # 首页的 profile 内容
-    Content: >
-      Welcome to my Blog! 
-      </div>
-  # 社交帐号的按钮
+  # 首页只展示 posts 目录的文章（周刊等单独归类）
+  mainSections: ["posts"]
+
+  # ===== 个人名片（首页顶部 Profile Mode）=====
+  profileMode:
+    enabled: true
+    title: "zo0043"
+    subtitle: "记录才能记忆，量变引发质变。"
+    imageUrl: "zo0043.png" # 头像，放在 static/ 目录
+    imageTitle: "zo0043"
+    imageWidth: 160
+    imageHeight: 160
+    buttons:
+      - name: GitHub
+        url: "https://github.com/zo0043"
+      - name: 关于我
+        url: "/about/"
+      - name: 周刊
+        url: "/weekly/"
+
+  # 社交帐号的按钮（GitHub / RSS / Email）
   socialIcons:
     - name: github
       title: Follow my Github
       url: "https://github.com/zo0043"
-    # - name: X
-    #   title: Follow my Twitter
-    #   url: "https://x.com/zo0043"
+    - name: rss
+      title: 订阅 RSS
+      url: "/index.xml"
+    - name: email
+      title: 联系我
+      url: "mailto:wwzerome@gmail.com" # ✏️ 改成你想展示的邮箱
     # - name: Bilibili
     #   title: 关注我的 B 站帐号
     #   url: "https://space.bilibili.com/3493138859559908"
@@ -100,6 +115,10 @@ params:
     # - name: Telegram
     #   title: Contact Me
     #   url: "https://t.me/zo0043"
+
+  # 页脚自定义文本
+  footer:
+    text: "🧭 记录才能记忆，量变引发质变。"
 
   # 搜索
   fuseOpts:
@@ -114,7 +133,7 @@ params:
       includeMatches: true
   # 设置网站的标签页的图标，即 favicon
   assets:
-      favicon: "zo.png"
+      favicon: "zo0043.png"
       favicon16x16: "zo0043_16x16.ico"
       favicon32x32: "zo0043_32x32.ico"
       apple_touch_icon: "zo0043.png"
