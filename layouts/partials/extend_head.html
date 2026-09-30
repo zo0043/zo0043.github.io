@@ -1,8 +1,25 @@
 {{- /* Head custom content area start */ -}}
 {{- /*     Insert any custom code (web-analytics, resources, etc.) - it will appear in the <head></head> section of every page. */ -}}
 {{- /*     Can be overwritten by partial with the same name in the global layouts. */ -}}
+
+{{- /*
+  依赖按需加载（2026-09-30 性能审核后定）
+  ─────────────────────────────────────────────
+  · MathJax 只在「正文含公式」的页面加载。
+    此前无条件注入全站 68 个页面，而本系列 15 篇明令禁用公式；
+    该 CDN（bootcss）实测响应 5.9 秒，对纯中文图文页是纯负担。
+    启用方法：文章 frontmatter 写 `math: true`。
+  · 网页字体默认关闭。JetBrains Mono 来自 fonts.googleapis.com，
+    中国大陆直连常超时；代码块会回退到系统等宽字体栈
+    （见 assets/css/extended/blank.css），观感差异很小。
+    需要时在 hugo.yaml 设 `params.enableWebfonts: true`。
+*/ -}}
+
+{{- if site.Params.enableWebfonts }}
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&display=swap" rel="stylesheet">
-{{ partial "mathjax.html" . }}
+{{- end }}
+
+{{- if .Params.math }}{{ partial "mathjax.html" . }}{{ end }}
 {{- /* Head custom content area end */ -}}
