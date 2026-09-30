@@ -13,6 +13,13 @@ tags : ["deepseek","ai论文","系列","基础"]
 
 ## 一、它的唯一任务：猜下一个词
 
+<div style="margin:22px 0">
+<svg viewBox="0 0 700 300" width="100%" style="max-width:700px;margin:0 auto" role="img" xmlns="http://www.w3.org/2000/svg"><defs><marker id="ah-d03" markerWidth="9" markerHeight="9" refX="7.2" refY="3.2" orient="auto"><path d="M0,0 L8,3.2 L0,6.4 z" fill="currentColor"/></marker></defs><rect x="15.0" y="52.0" width="150.0" height="56.0" rx="9" fill="currentColor" fill-opacity="0.06" stroke="currentColor" stroke-width="1.4"/><text x="90.0" y="77.0" text-anchor="middle" font-size="13" fill="currentColor">读入已有内容</text><text x="90.0" y="94.0" text-anchor="middle" font-size="11" opacity="0.72" fill="currentColor">前文 + 已写出的字</text><rect x="188.3" y="52.0" width="150.0" height="56.0" rx="9" fill="currentColor" fill-opacity="0.06" stroke="currentColor" stroke-width="1.4"/><text x="263.3" y="77.0" text-anchor="middle" font-size="13" fill="currentColor">算出「可能性表」</text><text x="263.3" y="94.0" text-anchor="middle" font-size="11" opacity="0.72" fill="currentColor">每个候选词一个分数</text><rect x="361.7" y="52.0" width="150.0" height="56.0" rx="9" fill="currentColor" fill-opacity="0.06" stroke="currentColor" stroke-width="1.4"/><text x="436.7" y="77.0" text-anchor="middle" font-size="13" fill="currentColor">挑一个词</text><text x="436.7" y="94.0" text-anchor="middle" font-size="11" opacity="0.72" fill="currentColor">通常挑高的，加一点随机</text><rect x="535.0" y="52.0" width="150.0" height="56.0" rx="9" fill="currentColor" fill-opacity="0.06" stroke="currentColor" stroke-width="1.4"/><text x="610.0" y="77.0" text-anchor="middle" font-size="13" fill="currentColor">接到末尾</text><text x="610.0" y="94.0" text-anchor="middle" font-size="11" opacity="0.72" fill="currentColor">句子变长一个字</text><line x1="166.0" y1="80.0" x2="187.3" y2="80.0" stroke="currentColor" stroke-width="1.4" marker-end="url(#ah-d03)"/><line x1="339.3" y1="80.0" x2="360.7" y2="80.0" stroke="currentColor" stroke-width="1.4" marker-end="url(#ah-d03)"/><line x1="512.7" y1="80.0" x2="534.0" y2="80.0" stroke="currentColor" stroke-width="1.4" marker-end="url(#ah-d03)"/><polyline points="610.0,108.0 670.0,108.0 670.0,108.0 90.0,108.0" fill="none" stroke="currentColor" stroke-width="1.4" stroke-dasharray="6 4" marker-end="url(#ah-d03)"/><text x="670.0" y="112.0" text-anchor="end" font-size="11" opacity="0.78" fill="currentColor">重复 · 直到写完</text><rect x="40.0" y="170.0" width="620.0" height="100.0" rx="10" fill="currentColor" fill-opacity="0.025" stroke="currentColor" stroke-width="1" stroke-dasharray="3 4" opacity="0.9"/><text x="50.0" y="186.0" text-anchor="start" font-size="11" opacity="0.72" fill="currentColor">训练 vs 使用：两件不同的事</text><rect x="80.0" y="206.0" width="200.0" height="48.0" rx="9" fill="currentColor" fill-opacity="0.13" stroke="currentColor" stroke-width="1.4"/><text x="180.0" y="227.0" text-anchor="middle" font-size="13" fill="currentColor">训练</text><text x="180.0" y="244.0" text-anchor="middle" font-size="11" opacity="0.72" fill="currentColor">猜错就改内部数字 · 极贵</text><rect x="365.0" y="206.0" width="230.0" height="48.0" rx="9" fill="currentColor" fill-opacity="0.03" stroke="currentColor" stroke-width="1.4" stroke-dasharray="5 4"/><text x="480.0" y="227.0" text-anchor="middle" font-size="13" fill="currentColor">使用</text><text x="480.0" y="244.0" text-anchor="middle" font-size="11" opacity="0.72" fill="currentColor">数字不再变 · 但要存「读书笔记」</text></svg>
+<p style="text-align:center;font-size:13px;opacity:.7;margin:8px 0 0">「猜下一个词」是一个循环；训练改数字，使用只存笔记</p>
+</div>
+
+
+
 给它一句话的开头：
 
 > 今天天气很好，我想去公园……
@@ -30,7 +37,7 @@ tags : ["deepseek","ai论文","系列","基础"]
 
 > **你可以自己试试：** 拿一篇文章，随便遮住一个词，猜猜原文是什么。如果你猜得挺准，说明你也做了一次"语言模型"的动作。差别只在于：模型读过的东西比你多几亿倍。
 
-**词元（token）** 就是它处理的最小单位。一个英文单词可能是一到两个词元，一个汉字通常是一到两个词元——**不是按"字"或"单词"切的**，这解释了为什么"2T 词元"不能直接换算成"多少本书"。
+**词元（token）** 就是它处理的最小单位。它**既不是"字"也不是"单词"**，而是由词表切出来的：一个英文单词可能被切成好几段，两个常用汉字也可能合并成一个词元。**切法取决于模型的词表**，所以"2T 词元"不能直接换算成"多少本书"或"多少字"——想知道换算关系，得先看词表。
 
 ## 二、"猜下一个词"为什么会变聪明
 

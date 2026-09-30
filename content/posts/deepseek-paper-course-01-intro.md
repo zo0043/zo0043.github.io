@@ -11,14 +11,21 @@ tags : ["deepseek","ai论文","系列","学习方法"]
 
 ## 一、这套论文讲了两年半的连续故事
 
-从 2024 年 1 月到 2026 年 9 月，DeepSeek 公开发表了 31 篇被本文系列收录的论文报告。它们不是零散的成果，而是一条能连起来的线：
+<div style="margin:22px 0">
+<svg viewBox="0 0 780 300" width="100%" style="max-width:780px;margin:0 auto" role="img" xmlns="http://www.w3.org/2000/svg"><defs><marker id="ah-d01" markerWidth="9" markerHeight="9" refX="7.2" refY="3.2" orient="auto"><path d="M0,0 L8,3.2 L0,6.4 z" fill="currentColor"/></marker></defs><text x="390.0" y="20.0" text-anchor="middle" font-size="14" font-weight="bold" fill="currentColor">四段演化与三条主线</text><rect x="32.5" y="44.0" width="155.0" height="52.0" rx="9" fill="currentColor" fill-opacity="0.06" stroke="currentColor" stroke-width="1.4"/><text x="110.0" y="67.0" text-anchor="middle" font-size="13" fill="currentColor">2024 上半</text><text x="110.0" y="84.0" text-anchor="middle" font-size="11" opacity="0.72" fill="currentColor">先算账：钱该花在哪</text><rect x="215.8" y="44.0" width="155.0" height="52.0" rx="9" fill="currentColor" fill-opacity="0.06" stroke="currentColor" stroke-width="1.4"/><text x="293.3" y="67.0" text-anchor="middle" font-size="13" fill="currentColor">2024 下半</text><text x="293.3" y="84.0" text-anchor="middle" font-size="11" opacity="0.72" fill="currentColor">拼便宜零件</text><rect x="399.2" y="44.0" width="155.0" height="52.0" rx="9" fill="currentColor" fill-opacity="0.06" stroke="currentColor" stroke-width="1.4"/><text x="476.7" y="67.0" text-anchor="middle" font-size="13" fill="currentColor">2025</text><text x="476.7" y="84.0" text-anchor="middle" font-size="11" opacity="0.72" fill="currentColor">让模型学会「想」</text><rect x="582.5" y="44.0" width="155.0" height="52.0" rx="9" fill="currentColor" fill-opacity="0.06" stroke="currentColor" stroke-width="1.4"/><text x="660.0" y="67.0" text-anchor="middle" font-size="13" fill="currentColor">2026</text><text x="660.0" y="84.0" text-anchor="middle" font-size="11" opacity="0.72" fill="currentColor">效率极限 + 开新方向</text><line x1="188.0" y1="70.0" x2="215.3" y2="70.0" stroke="currentColor" stroke-width="1.4" marker-end="url(#ah-d01)"/><line x1="371.3" y1="70.0" x2="398.7" y2="70.0" stroke="currentColor" stroke-width="1.4" marker-end="url(#ah-d01)"/><line x1="554.7" y1="70.0" x2="582.0" y2="70.0" stroke="currentColor" stroke-width="1.4" marker-end="url(#ah-d01)"/><rect x="40" y="134" width="700" height="32" rx="6" fill="currentColor" fill-opacity="0.1" stroke="currentColor" stroke-width="1" /><text x="58.0" y="154.0" text-anchor="start" font-size="12" fill="currentColor">省：用更少计算做同样的事</text><rect x="40" y="180" width="700" height="32" rx="6" fill="currentColor" fill-opacity="0.06" stroke="currentColor" stroke-width="1" /><text x="58.0" y="200.0" text-anchor="start" font-size="12" fill="currentColor">判断对错：从对错 → 自己当裁判</text><rect x="40" y="226" width="700" height="32" rx="6" fill="currentColor" fill-opacity="0.06" stroke="currentColor" stroke-width="1" /><text x="58.0" y="246.0" text-anchor="start" font-size="12" fill="currentColor">读数字：同一件事不同口径能差几倍</text><text x="390.0" y="288.0" text-anchor="middle" font-size="12" opacity="0.7" fill="currentColor">三条线在最新一代模型上汇合</text></svg>
+<p style="text-align:center;font-size:13px;opacity:.7;margin:8px 0 0">四段演化：同一时期并行推进的三条主线</p>
+</div>
+
+
+
+从 2024 年 1 月到 2026 年 9 月，本文系列收录并逐篇核验了 DeepSeek 的 31 篇论文报告（范围说明见第五节）。它们不是零散的成果，而是一条能连起来的线：
 
 1. **2024 年上半年：先搞清楚钱该花在哪。** 与其急着造大模型，他们先做小规模实验，研究"参数、数据、算力怎么分配最划算"。
 2. **2024 下半年到年底：把便宜的零件拼起来。** 用更省显存的注意力机制、更省的专家结构，堆出一个很强但成本可控的模型。
 3. **2025 年：让模型学会"想"。** 重点转向推理能力——怎么用奖励机制让模型自己学会一步步解题。
 4. **2026 年：把效率推到极限，同时开辟新方向。** 压缩、低精度计算、记忆结构、多模态，几乎同时换代。
 
-**这条线的主题词只有一个：省。** 不是省钱本身，而是"用更少的计算，做到一样甚至更好"——这个思路贯穿全部 31 篇。
+**这条线上最显眼的一条主线是"省"**——不是省钱本身，而是"用更少的计算，做到一样甚至更好"。但它**不是唯一的主线**：另外还有两条同样贯穿全程的线，一条是**"怎么判断对错"**（从简单对错判定，一路升维到能自己当裁判），另一条是**"怎么读数字"**（同一件事在不同口径下能差出几倍）。三条线会在最新一代模型上汇合。
 
 ## 二、为什么"省"比"更强"更值得学
 

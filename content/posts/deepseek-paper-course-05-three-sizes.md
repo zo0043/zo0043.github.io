@@ -11,6 +11,13 @@ tags : ["deepseek","ai论文","系列","基础"]
 
 ## 一、三个"大小"是三种不同的单位，混着看就会读错论文
 
+<div style="margin:22px 0">
+<svg viewBox="0 0 760 320" width="100%" style="max-width:760px;margin:0 auto" role="img" xmlns="http://www.w3.org/2000/svg"><defs><marker id="ah-d05" markerWidth="9" markerHeight="9" refX="7.2" refY="3.2" orient="auto"><path d="M0,0 L8,3.2 L0,6.4 z" fill="currentColor"/></marker></defs><text x="360.0" y="20.0" text-anchor="middle" font-size="14" font-weight="bold" fill="currentColor">三个「大小」与它们的关系</text><rect x="55.0" y="54.0" width="190.0" height="52.0" rx="9" fill="currentColor" fill-opacity="0.13" stroke="currentColor" stroke-width="1.4"/><text x="150.0" y="77.0" text-anchor="middle" font-size="13" fill="currentColor">参数量 N</text><text x="150.0" y="94.0" text-anchor="middle" font-size="11" opacity="0.72" fill="currentColor">有多少个可调数字</text><rect x="310.0" y="54.0" width="180.0" height="52.0" rx="9" fill="currentColor" fill-opacity="0.13" stroke="currentColor" stroke-width="1.4"/><text x="400.0" y="77.0" text-anchor="middle" font-size="13" fill="currentColor">数据量 D</text><text x="400.0" y="94.0" text-anchor="middle" font-size="11" opacity="0.72" fill="currentColor">读了多少词元</text><rect x="570.0" y="54.0" width="160.0" height="52.0" rx="9" fill="currentColor" fill-opacity="0.13" stroke="currentColor" stroke-width="1.4"/><text x="650.0" y="77.0" text-anchor="middle" font-size="13" fill="currentColor">算力 C</text><text x="650.0" y="94.0" text-anchor="middle" font-size="11" opacity="0.72" fill="currentColor">一共多少次运算</text><text x="275.0" y="92.0" text-anchor="middle" font-size="11" opacity="0.75" fill="currentColor">互相制约，不能单独比</text><line x1="245.0" y1="106.0" x2="308.0" y2="106.0" stroke="currentColor" stroke-width="1.4" marker-end="url(#ah-d05)"/><line x1="492.0" y1="106.0" x2="568.0" y2="106.0" stroke="currentColor" stroke-width="1.4" marker-end="url(#ah-d05)"/><rect x="40.0" y="150.0" width="680.0" height="140.0" rx="10" fill="currentColor" fill-opacity="0.025" stroke="currentColor" stroke-width="1" stroke-dasharray="3 4" opacity="0.9"/><text x="50.0" y="166.0" text-anchor="start" font-size="11" opacity="0.72" fill="currentColor">关系式（来自论文式 2 的近似）</text><text x="360.0" y="186.0" text-anchor="middle" font-size="13" fill="currentColor">算力 ≈ 每个词元的开销 × 数据量</text><text x="360.0" y="212.0" text-anchor="middle" font-size="12" opacity="0.8" fill="currentColor">每个词元开销 ≈ 6 × 参数量   （前向 2 + 反向约 4）</text><rect x="85.0" y="233.0" width="250.0" height="50.0" rx="9" fill="currentColor" fill-opacity="0.1" stroke="currentColor" stroke-width="1.4" stroke-dasharray="5 4"/><text x="210.0" y="255.0" text-anchor="middle" font-size="13" fill="currentColor">算力固定时：模型翻倍</text><text x="210.0" y="272.0" text-anchor="middle" font-size="11" opacity="0.72" fill="currentColor">能读的数据就得减半</text><rect x="425.0" y="233.0" width="250.0" height="50.0" rx="9" fill="currentColor" fill-opacity="0.13" stroke="currentColor" stroke-width="1.4"/><text x="550.0" y="255.0" text-anchor="middle" font-size="13" fill="currentColor">所以要先算账再动手</text><text x="550.0" y="272.0" text-anchor="middle" font-size="11" opacity="0.72" fill="currentColor">这正是第一篇论文的主题</text><line x1="337.0" y1="258.0" x2="423.0" y2="258.0" stroke="currentColor" stroke-width="1.4" marker-end="url(#ah-d05)"/></svg>
+<p style="text-align:center;font-size:13px;opacity:.7;margin:8px 0 0">参数量、数据量、算力三者互相制约；算力固定时此消彼长</p>
+</div>
+
+
+
 先认这三个词。每个词第一次出现，都用最土的说法解释一遍：
 
 | 名字 | 单位 | 人话 | DeepSeek 第一篇论文里的例子 |
@@ -27,7 +34,7 @@ tags : ["deepseek","ai论文","系列","基础"]
 
 这个反例几乎每个人都会踩。
 
-**词元（token）** 是模型处理的最小单位，但它**既不是字，也不是单词**。同一个英文单词可能被切成一个或两个词元；一个汉字通常是一到两个词元。怎么切，由模型自己的分词表决定：DeepSeek 第一篇论文的常规词元表有 10 万个词条，加上 15 个特殊标记是 100,015 个，训练时矩阵还预留到 102,400 个位置。**这三个词表数字描述的是三个不同对象，不能互相替换。**
+**词元（token）** 是模型处理的最小单位，但它**既不是字，也不是单词**。切法跟"字"或"单词"都不完全对应——一个常用的两字词可能只占一个词元，一个生僻长词也可能被切成好几段。**怎么切完全由模型自己的分词表决定**：DeepSeek 第一篇论文的常规词元表有 10 万个词条，加上 15 个特殊标记是 100,015 个，训练时矩阵还预留到 102,400 个位置。**这三个词表数字描述的是三个不同对象，不能互相替换。**
 
 于是：
 
