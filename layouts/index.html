@@ -72,6 +72,11 @@
 
   {{- if gt (len (where site.RegularPages "Type" "in" site.Params.mainSections | default (where site.RegularPages "Section" "posts"))) 5 }}
   <div class="home-posts-more">
+    <a class="button" href="{{ "series/" | relLangURL }}">
+      <span class="button-inner">DeepSeek 论文课：15 篇系列导读 →</span>
+    </a>
+  </div>
+  <div class="home-posts-more">
     <a class="button" href="{{ "archives/" | relLangURL }}">
       <span class="button-inner">查看全部文章 →</span>
     </a>

@@ -1,0 +1,58 @@
+{{ define "main" }}
+  <div class="series-container">
+    <h1 class="series-title">DeepSeek 论文课</h1>
+    <p class="series-description">
+      15 篇文章，一条主线：<strong>用更少的计算，做到一样甚至更好</strong>。<br>
+      每篇都配一张流程图或状态图，数字全部来自论文原文的逐篇核验。
+    </p>
+
+    {{/* 篇目从内容自动派生：按文件名的 01–15 序号排序，避免手工清单与正文脱节 */}}
+    {{ $posts := where .Site.RegularPages "Params.tags" "intersect" (slice "系列") }}
+    {{ $posts = sort $posts "File.ContentBaseName" }}
+
+    <div class="series-paths">
+      <h2>按你的兴趣挑入口</h2>
+      <div class="series-path">
+        <strong>时间不多、先看结论：</strong>
+        <a href="/posts/deepseek-paper-course-01-intro/">为什么值得读</a> →
+        <a href="/posts/deepseek-paper-course-05-three-sizes/">三个"大小"</a> →
+        <a href="/posts/deepseek-paper-course-09-kv-compression/">KV 压缩</a> →
+        <a href="/posts/deepseek-paper-course-13-systems-cost/">557.6 万美元</a>
+      </div>
+      <div class="series-path">
+        <strong>想知道模型内部怎么运作：</strong>
+        <a href="/posts/deepseek-paper-course-03-how-llm-works/">猜下一个词</a> →
+        <a href="/posts/deepseek-paper-course-04-attention/">注意力</a> →
+        <a href="/posts/deepseek-paper-course-07-moe/">专家模型</a> →
+        <a href="/posts/deepseek-paper-course-08-rl-reasoning/">强化学习</a>
+      </div>
+      <div class="series-path">
+        <strong>只追最新一代技术：</strong>
+        <a href="/posts/deepseek-paper-course-10-v4/">V4 换代</a> →
+        <a href="/posts/deepseek-paper-course-11-multimodal/">多模态</a> →
+        <a href="/posts/deepseek-paper-course-14-engram/">Engram 记忆</a> →
+        <a href="/posts/deepseek-paper-course-15-dspark/">DSpark 加速</a>
+      </div>
+    </div>
+
+    <div class="series-list">
+      {{ range $posts }}
+        <article class="series-item">
+          <h2 class="series-item-title">
+            <a href="{{ .RelPermalink }}">{{ .Title }}</a>
+          </h2>
+          <p class="series-item-desc">{{ .Description }}</p>
+          <div class="series-item-meta">
+            约 {{ .ReadingTime }} 分钟 · {{ range .Params.tags }}<span class="tag">{{ . }}</span> {{ end }}
+          </div>
+        </article>
+      {{ end }}
+    </div>
+
+    <div class="series-note">
+      上一页列的 15 篇，数字全部来自 <strong>31 篇 DeepSeek 论文报告</strong>的逐篇核验，
+      每篇文末附「原文出处」与对应的 arXiv 版本号——你可以自己打开核对我算的数。
+      如果发现哪一处算错了，欢迎在评论区指出。
+    </div>
+  </div>
+{{ end }}

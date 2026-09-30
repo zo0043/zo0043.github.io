@@ -34,6 +34,9 @@ languages:
         - name: 归档
           pageRef: archives/
           weight: 5
+        - name: 论文课
+          pageRef: series/
+          weight: 6 # DeepSeek 论文课系列导读，紧跟首页与归档
         - name: 分类
           pageRef: categories/
           weight: 10

@@ -280,6 +280,115 @@ h1, h2, h3, h4 {
   margin-bottom: 0;
 }
 
+/* ---------- 系列页：DeepSeek 论文课 ---------- */
+.series-container {
+  max-width: 760px;
+  margin: 0 auto;
+  padding: 1rem 0;
+}
+
+.series-title {
+  font-size: 2rem;
+  text-align: center;
+  margin-bottom: 0.6rem;
+  color: var(--primary);
+}
+
+.series-description {
+  font-size: 1rem;
+  text-align: center;
+  color: var(--secondary);
+  margin-bottom: 2rem;
+}
+
+/* 三条入口路径 */
+.series-paths {
+  background: var(--entry);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 1.2rem 1.3rem;
+  margin-bottom: 1.8rem;
+}
+
+.series-paths h2 {
+  font-size: 1.05rem;
+  margin: 0 0 0.8rem;
+  color: var(--primary);
+}
+
+.series-path {
+  margin-bottom: 0.7rem;
+  line-height: 1.6;
+  font-size: 0.95rem;
+  color: var(--content);
+}
+
+.series-path:last-child {
+  margin-bottom: 0;
+}
+
+.series-path strong {
+  color: var(--link-color);
+}
+
+/* 篇目列表 */
+.series-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.series-item {
+  background: var(--entry);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 1.1rem 1.2rem;
+  transition: transform 0.2s, border-color 0.2s;
+}
+
+.series-item:hover {
+  transform: translateY(-2px);
+  border-color: var(--link-color);
+}
+
+.series-item-title {
+  font-size: 1.05rem;
+  margin: 0 0 0.4rem;
+  line-height: 1.5;
+}
+
+.series-item-title a {
+  color: var(--primary);
+  text-decoration: none;
+}
+
+.series-item-title a:hover {
+  color: var(--link-color);
+}
+
+.series-item-desc {
+  font-size: 0.92rem;
+  color: var(--content);
+  line-height: 1.65;
+  margin: 0 0 0.6rem;
+}
+
+.series-item-meta {
+  font-size: 0.82rem;
+  color: var(--secondary);
+}
+
+.series-note {
+  margin-top: 1.8rem;
+  padding: 0.9rem 1.1rem;
+  border-left: 3px solid var(--link-color);
+  background: var(--entry);
+  border-radius: 0 var(--radius) var(--radius) 0;
+  font-size: 0.9rem;
+  color: var(--secondary);
+  line-height: 1.7;
+}
+
 /* ---------- 页脚签名 ---------- */
 .footer {
   color: var(--secondary);
