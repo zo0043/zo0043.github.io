@@ -3,6 +3,7 @@ title : 'DeepSeek 论文课（二）：AI 论文里那些看不懂的词'
 date : 2026-09-30T16:25:00+08:00
 categories : ["DeepSeek"]
 tags : ["deepseek","ai论文","系列","术语表"]
+description : "把 AI 论文里最常见、也最容易望文生义的术语，按『模型长什么样、怎么训练、怎么用、怎么衡量』四层归好类，每个都说明它真正的含义。"
 ---
 
 # AI 论文里那些看不懂的词
@@ -121,6 +122,23 @@ tags : ["deepseek","ai论文","系列","术语表"]
 **推理（inference）**：模型"运行"的过程——把输入算成输出。比如"部署一次推理要多少显存"。
 
 > 中文都叫"推理"，英文却是两个完全不同的词。**读到"推理成本"指的是第二个，"推理能力"通常指第一个。** 搞混会完全读错论文。
+
+
+
+
+## 原文出处
+
+本系列的数字都来自下面这些报告（**已逐篇核验**）。编号后的 vN 是本系列核对时对应的版本——如果你打开的另一版数字不一样，先看版本号。
+
+- DeepSeek-V2 技术报告：[arXiv:2405.04434v5](https://arxiv.org/abs/2405.04434)
+- DeepSeek-V3 技术报告：[arXiv:2412.19437v2](https://arxiv.org/abs/2412.19437)
+- DeepSeek-R1 技术报告：[arXiv:2501.12948v2](https://arxiv.org/abs/2501.12948)
+- DeepSeek-V4 技术报告：[arXiv:2606.19348v1](https://arxiv.org/abs/2606.19348)
+- Engram 条件记忆论文：[arXiv:2601.07372v2](https://arxiv.org/abs/2601.07372)
+- DSpark 论文：[arXiv:2607.05147v1](https://arxiv.org/abs/2607.05147)
+- Fire-Flyer AI-HPC 论文：[arXiv:2408.14158v2](https://arxiv.org/abs/2408.14158)
+
+**关于版本：** DeepSeek-R1 的 v1 与 v2 之间存在数字修订，本系列统一以 **v2** 为准。
 
 ---
 
