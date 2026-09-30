@@ -1,4 +1,5 @@
 ---
+aliases : ["/posts/weekly-003-身体健康最重要/"]
 title : 'weekly-003 身体健康最重要'
 date : "2025-01-19T01:02:29+08:00"
 categories : ["weekly"]

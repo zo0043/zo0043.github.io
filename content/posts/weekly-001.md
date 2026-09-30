@@ -1,4 +1,5 @@
 ---
+aliases : ["/posts/weekly-001-年度计划/"]
 title : 'weekly-001 年度计划'
 date : "2025-01-05T01:02:29+08:00"
 categories : ["weekly"]
