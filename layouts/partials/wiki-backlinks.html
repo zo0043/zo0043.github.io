@@ -1,0 +1,38 @@
+{{- /* 反链索引：解析后的目标页 RelPermalink → slice of dict "title"/"url"。
+       关键：键必须用「引用被解析到的那个页面」（走 wiki-index，标题与别名统一），
+       否则 [[别名]] 会记在别名键上，而条目页只用标题查表 → 反链静默丢失。
+
+       扫描 RawContent 前先剔除围栏代码与行内代码；
+       源页范围 = params.linkSections 列出的所有双链分区，且用 site.Pages 而非
+       RegularPages：分区首页 _index.md 里的引用也算反链（反之亦然，/escape/ 的
+       条目引用 /wiki/ 的条目会产生跨分区反链）。
+       同一源页对同一目标只记一次（按解析后的 URL 去重，故 [[标题]] 与 [[别名]]
+       指向同一页时只算一条）。
+       无 variant 的 partialCached 保证全站只计算一次。 */ -}}
+{{- $index := partialCached "wiki-index.html" . -}}
+{{- $bl := dict -}}
+{{- $sections := partialCached "link-sections.html" . -}}
+{{- range where site.Pages "Section" "in" $sections -}}
+  {{- $src := . -}}
+  {{- $stripped := replaceRE "(?s)```.*?```|~~~.*?~~~" "" .RawContent -}}
+  {{- $stripped = replaceRE "`[^`]*`" "" $stripped -}}
+  {{- /* 转义写法（源文件里 \\[[…]]）按字面量处理，不产生反链。
+         注意这里必须是 2 个以上反斜杠：单层 \[ 会被 markdown 吃掉、最终仍渲染成链接。 */ -}}
+  {{- $stripped = replaceRE `\\{2,}\[\[[^\]]+\]\]` "" $stripped -}}
+  {{- $seen := slice -}}
+  {{- range $hit := findRE `\[\[[^\]]+\]\]` $stripped -}}
+    {{- $inner := strings.TrimSuffix "]]" (strings.TrimPrefix "[[" $hit) -}}
+    {{- $target := index (split $inner "|") 0 -}}
+    {{- $target = index (split $target "::") 0 -}}
+    {{- /* 与 wiki-index 同因：0.130 下避免 strings.TrimSpace 对 interface{} 报错 */ -}}
+    {{- $key := lower (trim $target " ") -}}
+    {{- /* 解析到属主页；未收录的引用不产生反链（与渲染层的 wl-missing 一致） */ -}}
+    {{- $url := index $index $key -}}
+    {{- if and $url (not (in $seen $url)) -}}
+      {{- $seen = $seen | append $url -}}
+      {{- $cur := index $bl $url | default slice -}}
+      {{- $bl = merge $bl (dict $url ($cur | append (dict "title" $src.Title "url" $src.RelPermalink))) -}}
+    {{- end -}}
+  {{- end -}}
+{{- end -}}
+{{- return $bl -}}

@@ -444,3 +444,111 @@ h1, h2, h3, h4 {
     padding-bottom: 0.5em;
   }
 }
+
+/* ===== 双链库（content/wiki/）===== */
+.wl {
+  text-decoration: underline;
+  text-decoration-color: var(--tertiary, #888);
+  text-underline-offset: 3px;
+}
+.wl:hover {
+  color: var(--primary);
+}
+/* 未收录：橙色虚线，不可点击 */
+.wl-missing {
+  color: var(--tertiary, #999);
+  border-bottom: 1px dashed #d9822b;
+  cursor: help;
+  text-decoration: none;
+}
+
+/* 反链面板（条目页底部） */
+.backlinks {
+  margin-top: 2rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--border);
+}
+.backlinks-title {
+  font-size: 1.05rem;
+  margin: 0 0 0.5rem;
+}
+.backlinks ul {
+  list-style: none;
+  padding-left: 0;
+  margin: 0;
+}
+.backlinks li {
+  padding-left: 1.2em;
+  text-indent: -1.2em;
+}
+.backlinks li::before {
+  content: "↩ ";
+  color: var(--tertiary);
+}
+
+/* 双链库索引页（layouts/wiki/list.html）
+   注意：这个页面渲染的是 PaperMod 的 post-entry 卡片（<article class="post-entry wiki-entry">），
+   不是 <ul class="wiki-list">。此前这里写着 .wiki-list / .wiki-list li 与
+   「.wiki-list .wiki-aliases」后代选择器，而 .wiki-list 从未被任何模板使用
+   —— 结果是别名行根本没有专属样式，且留下两条死规则。2026-10-08 修正为
+   直接命中模板真实输出的类。 */
+.wiki-entry .wiki-aliases {
+  display: block;
+  margin: 0 0 0.2rem;
+  font-size: 0.85em;
+  color: var(--secondary);
+}
+
+/* ===== 逃生指南（content/escape/）===== */
+
+/* A股散户逃生指南：条目成本/收益/证据标签行 */
+.entry-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  margin: 0.6rem 0 0;
+}
+.entry-tags .tag {
+  display: inline-block;
+  padding: 0.1rem 0.5rem;
+  border: 1px solid var(--tertiary);
+  border-radius: 4px;
+  font-size: 0.78em;
+  line-height: 1.6;
+  color: var(--secondary);
+}
+.entry-tags .tag-cost,
+.entry-tags .tag-gain {
+  /* 成本与收益是三个标签里的前两个，共用基础样式即可；
+     这里显式写出选择器是为了让「哪些标签被样式覆盖」在代码里可读，
+     不必靠推断 .tag 的层叠。 */
+  border-color: var(--tertiary);
+}
+.entry-tags .tag-evidence {
+  border-color: var(--primary);
+  color: var(--primary);
+}
+/* 指南分区列表页：按章节分组 */
+.guide-chapter {
+  margin-bottom: 2rem;
+}
+.guide-chapter-title {
+  padding-bottom: 0.3rem;
+  border-bottom: 1px solid var(--tertiary);
+}
+.guide-list {
+  padding-left: 0;
+  list-style: none;
+}
+.guide-item {
+  margin-bottom: 1rem;
+}
+.guide-link {
+  font-size: 1.05em;
+  font-weight: 600;
+}
+.guide-desc {
+  margin: 0.2rem 0 0;
+  font-size: 0.9em;
+  color: var(--secondary);
+}

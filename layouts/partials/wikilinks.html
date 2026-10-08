@@ -1,0 +1,88 @@
+{{- /* 双链渲染：把 [[目标]] / [[目标|显示文字]] / [[目标::关系|显示文字]] 换成站内链接。
+       入参：dict "page" <page> "content" <已渲染 HTML>
+       调用方必须加 | safeHTML，否则整段 HTML 会被转义。
+
+       转义：想写字面量 [[…]] 有两种写法
+         (1) 行内代码 `[[…]]` —— 推荐，语义最清楚；
+         (2) 反斜杠转义 —— markdown 会先吃掉单层 `\[`，所以源文件里要写 `\\[[…]]`，
+             渲染出的 HTML 才是 `\[[…]]`；本 partial 见到这种形态就剥掉反斜杠、按字面输出，
+             并跳过链接替换。 */ -}}
+{{- $page := .page -}}
+{{- $content := .content -}}
+
+{{- /* 第一步：把代码块/行内代码换成占位符，避免 [[…]] 被误判 */ -}}
+{{- $protect := slice -}}
+{{- $work := $content -}}
+{{- range $i, $hit := findRE `(?s)<pre.*?</pre>|<code.*?</code>` $content -}}
+  {{- $token := printf "WLPROTECTED%dEND" $i -}}
+  {{- $protect = $protect | append (dict "token" $token "raw" $hit) -}}
+  {{- $work = replace $work $hit $token -}}
+{{- end -}}
+
+{{- /* 第二步：把转义写法（反斜杠 + [[…]]）换成占位符，最后按字面输出 */ -}}
+{{- $escaped := slice -}}
+{{- range $i, $hit := findRE `\\+\[\[[^\]]+\]\]` $work -}}
+  {{- $token := printf "WLESCAPED%dEND" $i -}}
+  {{- /* 剥掉全部前导反斜杠（源里写 \\[[x]]，markdown 先吃掉一层，这里可能剩 1 或多层） */ -}}
+  {{- $literal := replaceRE `^\\+` "" $hit -}}
+  {{- $escaped = $escaped | append (dict "token" $token "raw" $literal) -}}
+  {{- $work = replace $work $hit $token -}}
+{{- end -}}
+
+{{- $index := partialCached "wiki-index.html" $page -}}
+
+{{- /* 第三步：解析三种写法 */ -}}
+{{- range $hit := findRE `\[\[[^\]]+\]\]` $work -}}
+  {{- $inner := strings.TrimSuffix "]]" (strings.TrimPrefix "[[" $hit) -}}
+  {{- $label := $inner -}}
+  {{- $target := $inner -}}
+  {{- $rel := "" -}}
+  {{- $hasLabel := in $inner "|" -}}
+  {{- if $hasLabel -}}
+    {{- $parts := split $inner "|" -}}
+    {{- $target = index $parts 0 -}}
+    {{- /* 显示文字取「第一个竖线之后的全部内容」：[[目标|甲|乙]] 的显示文字是 甲|乙，
+           不能只取第 2 段而把后面的静默丢掉。 */ -}}
+    {{- $label = delimit (after 1 $parts) "|" -}}
+  {{- end -}}
+  {{- if in $target "::" -}}
+    {{- $tp := split $target "::" -}}
+    {{- $target = index $tp 0 -}}
+    {{- $rel = delimit (after 1 $tp) "::" -}}
+    {{- /* 省略显示文字时（[[目标::关系]]），显示文字必须是目标名本身，
+           否则关系串会变成可见文字（曾渲染成「目标::关系」）。 */ -}}
+    {{- if not $hasLabel -}}
+      {{- $label = $target -}}
+    {{- end -}}
+  {{- end -}}
+  {{- /* 统一用 trim：findRE 结果在 0.130 下也是 string，但保持与索引一致的写法更稳 */ -}}
+  {{- $label = trim $label " " -}}
+  {{- $target = trim $target " " -}}
+  {{- /* 显式写空显示文字（[[目标::关系|]] 或 [[目标|]]）时回退到目标名，
+         否则会渲染出一个零宽、点不中的空链接。 */ -}}
+  {{- if eq $label "" -}}
+    {{- $label = $target -}}
+  {{- end -}}
+  {{- $key := lower $target -}}
+  {{- $url := index $index $key -}}
+  {{- $rel = trim $rel " " -}}
+  {{- $html := "" -}}
+  {{- if $url -}}
+    {{- $html = printf `<a class="wl" data-rel="%s" href="%s">%s</a>` ($rel | htmlEscape) $url ($label | htmlEscape) -}}
+  {{- else -}}
+    {{- $html = printf `<span class="wl wl-missing" title="双链库未收录">%s</span>` ($label | htmlEscape) -}}
+  {{- end -}}
+  {{- $work = replace $work $hit $html -}}
+{{- end -}}
+
+{{- /* 第四步：还原转义写法为字面量（此时已不会再被替换） */ -}}
+{{- range $escaped -}}
+  {{- $work = replace $work .token .raw -}}
+{{- end -}}
+
+{{- /* 第五步：还原被保护的代码块 */ -}}
+{{- range $protect -}}
+  {{- $work = replace $work .token .raw -}}
+{{- end -}}
+
+{{- return $work -}}

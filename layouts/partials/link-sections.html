@@ -1,0 +1,12 @@
+{{- /* 参与双链索引的分区名列表（[]string）。
+       值来自 hugo.yaml 的 params.linkSections；未配置时回落为 ["wiki"]。
+       归一化成 []string 是刻意的：YAML 解出来是 []interface{}，而 CI 固定的
+       Hugo 0.130.0 与本地 0.145.0 对 where "in" 接收 []interface{} 的行为并不一致，
+       显式 printf "%v" 转换后两版结果相同。
+
+       无 variant 的 partialCached：只依赖站点配置，全站算一次。 */ -}}
+{{- $out := slice -}}
+{{- range (site.Params.linkSections | default (slice "wiki")) -}}
+  {{- $out = $out | append (printf "%v" .) -}}
+{{- end -}}
+{{- return $out -}}
