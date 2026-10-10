@@ -1,9 +1,10 @@
 ---
-title : '你好，新域名！'
-date : 2026-09-19T20:13:56+08:00
-draft : true # 发布流程的验证文章，不对读者展示（需恢复：删掉这一行）
-categories : ["测试"]
-tags : ["hello","2025"]
+title: "你好，新域名！"
+date: 2026-09-19T20:13:56+08:00
+draft: true # 发布流程的验证文章，不对读者展示（需恢复：删掉这一行）
+categories: ["测试"]
+tags: ["hello","2025"]
+description: "测试文章：验证从写作、Hugo 构建到 GitHub Actions 自动部署、blog.zero43.top 域名访问的全流程。"
 ---
 
 # 你好，新域名！👋
