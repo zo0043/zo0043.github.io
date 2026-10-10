@@ -55,11 +55,14 @@ jobs:
           HUGO_CACHEDIR: ${{ runner.temp }}/hugo_cache
           HUGO_ENVIRONMENT: production
           TZ: America/Los_Angeles
+        # 本站改动：这里**故意不再**用 configure-pages 的 base_url 覆盖 baseURL。
+        # 绑了自定义域名（blog.zero43.top）后，该输出是 http://，会把全站的
+        # canonical / og:url / sitemap / RSS 全部写成 http，与 https 访问和
+        # 「Enforce HTTPS」互相打架。域名现在只在 hugo.yaml 的 baseURL 里维护一处。
         run: |
           hugo \
             --gc \
-            --minify \
-            --baseURL "${{ steps.pages.outputs.base_url }}/"          
+            --minify
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
