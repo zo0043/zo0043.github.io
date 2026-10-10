@@ -1,31 +1,33 @@
 ---
-title : 'DeepSeek 论文课（十五）：让模型说话更快：投机解码与 DSpark'
-date : 2026-09-30T16:54:00+08:00
-categories : ["DeepSeek"]
-tags : ["deepseek","ai论文","系列","DSpark","推理加速"]
-description : "投机解码为什么无损、接受长度怎么算、DSpark 的两个改进，以及 60%–85% 提升的口径边界。"
+title: 'DeepSeek 论文课（十五）：让模型说话更快：投机解码与 DSpark'
+date: 2026-09-30T16:54:00+08:00
+categories: ["DeepSeek"]
+tags: ["deepseek","ai论文","系列","DSpark","推理加速"]
+description: "投机解码为什么无损、接受长度怎么算、DSpark 的两个改进，以及 60%–85% 提升的口径边界。"
 ---
 
 # 让模型说话更快：投机解码与 DSpark
 
-**先给结论：** 模型回答时是**一个词一个词往外吐**的，每个词都要走一遍完整的大模型计算——这是推理慢的根本原因。DSpark 的思路是：**先让一个"小助手"一口气猜出好几个词，再让大模型一次性批改。** 批改可以并行，猜对了就白赚。
+**先说口径：** 本篇讲的"词元"是模型内部的处理单位，**不是人说的"词"**——第三篇讲过，一个词元既不是字也不是单词（中文常是一两个字、英文常是半个词），所以下面所有"每轮几个"的数字都是**词元口径**，不能除"字数"来验证。
+
+**先给结论：** 模型回答时是**一个词元一个词元往外吐**的，每个词元都要走一遍完整的大模型计算——这是推理慢的根本原因。DSpark 的思路是：**先让一个"小助手"一口气猜出好几个词，再让大模型一次性批改。** 批改可以并行，猜对了就白赚。
 
 ## 一、先说清楚"慢"在哪里
 
 上一篇讲的是"知道什么"，这一篇讲的是"说得快不快"。
 
-模型生成文字的方式是自回归——**一次只产出下一个词，产出了就拼到后面，再产下一个。** 这个循环里有个致命的地方：
+模型生成文字的方式是自回归——**一次只产出下一个词元，产出了就拼到后面，再产下一个。** 这个循环里有个致命的地方：
 
-**每一个词，都要把整个大模型完整跑一遍。**
+**每一个词元，都要把整个大模型完整跑一遍。**
 
 模型有几百亿参数，跑一遍就是一次大计算。所以回答一段话就是"把大计算串行重复几十次"。**计算卡在这种串行循环里，大部分时间在等——这就是推理慢的根源。**
 
-**关键观察**：词与词之间必须串行，是因为第 3 个词要依赖第 2 个词。**但如果我能保证猜对所有词，那就不用等，一次算完。**
+**关键观察**：词元与词元之间必须串行，是因为第 3 个词元要依赖第 2 个词元。**但如果我能保证猜对所有词，那就不用等，一次算完。**
 
 ## 二、投机解码：先猜后批
 
 <div style="margin:22px 0">
-<svg viewBox="0 0 800 380" width="100%" style="max-width:800px;margin:0 auto" role="img" xmlns="http://www.w3.org/2000/svg"><defs><marker id="ah-d15" markerWidth="9" markerHeight="9" refX="7.2" refY="3.2" orient="auto"><path d="M0,0 L8,3.2 L0,6.4 z" fill="currentColor"/></marker></defs><text x="400.0" y="20.0" text-anchor="middle" font-size="14" font-weight="bold" fill="currentColor">投机解码：先猜后批，只快不笨</text><rect x="35.0" y="55.0" width="150.0" height="50.0" rx="9" fill="currentColor" fill-opacity="0.03" stroke="currentColor" stroke-width="1.4" stroke-dasharray="5 4"/><text x="110.0" y="77.0" text-anchor="middle" font-size="13" fill="currentColor">小助手</text><text x="110.0" y="94.0" text-anchor="middle" font-size="11" opacity="0.72" fill="currentColor">快的模型（草稿）</text><rect x="250.0" y="55.0" width="180.0" height="50.0" rx="9" fill="currentColor" fill-opacity="0.13" stroke="currentColor" stroke-width="1.4"/><text x="340.0" y="77.0" text-anchor="middle" font-size="13" fill="currentColor">一口气猜 k 个词</text><text x="340.0" y="94.0" text-anchor="middle" font-size="11" opacity="0.72" fill="currentColor">它不负责最终正确</text><rect x="505.0" y="55.0" width="190.0" height="50.0" rx="9" fill="currentColor" fill-opacity="0.13" stroke="currentColor" stroke-width="1.4"/><text x="600.0" y="77.0" text-anchor="middle" font-size="13" fill="currentColor">大模型并行批改</text><text x="600.0" y="94.0" text-anchor="middle" font-size="11" opacity="0.72" fill="currentColor">一次验证全部候选</text><line x1="187.0" y1="80.0" x2="248.0" y2="80.0" stroke="currentColor" stroke-width="1.4" marker-end="url(#ah-d15)"/><line x1="432.0" y1="80.0" x2="503.0" y2="80.0" stroke="currentColor" stroke-width="1.4" marker-end="url(#ah-d15)"/><rect x="505.0" y="151.0" width="190.0" height="48.0" rx="9" fill="currentColor" fill-opacity="0.06" stroke="currentColor" stroke-width="1.4"/><text x="600.0" y="172.0" text-anchor="middle" font-size="13" fill="currentColor">接受前缀</text><text x="600.0" y="189.0" text-anchor="middle" font-size="11" opacity="0.72" fill="currentColor">第一个错处就截断</text><line x1="600.0" y1="107.0" x2="600.0" y2="150.0" stroke="currentColor" stroke-width="1.4" marker-end="url(#ah-d15)"/><rect x="215.0" y="151.0" width="210.0" height="48.0" rx="9" fill="currentColor" fill-opacity="0.06" stroke="currentColor" stroke-width="1.4"/><text x="320.0" y="172.0" text-anchor="middle" font-size="13" fill="currentColor">把已接受的接到末尾</text><text x="320.0" y="189.0" text-anchor="middle" font-size="11" opacity="0.72" fill="currentColor">错的丢掉，从那里重来</text><line x1="503.0" y1="175.0" x2="427.0" y2="175.0" stroke="currentColor" stroke-width="1.4" marker-end="url(#ah-d15)"/><polyline points="215.0,175.0 60.0,175.0 60.0,175.0 320.0,175.0" fill="none" stroke="currentColor" stroke-width="1.4" stroke-dasharray="6 4" marker-end="url(#ah-d15)"/><text x="60.0" y="179.0" text-anchor="end" font-size="11" opacity="0.78" fill="currentColor">循环</text><text x="400.0" y="214.0" text-anchor="middle" font-size="12" opacity="0.82" fill="currentColor">为什么无损：最终每个词都经过大模型认可，草稿只是「提议」</text><rect x="40.0" y="228.0" width="720.0" height="132.0" rx="10" fill="currentColor" fill-opacity="0.025" stroke="currentColor" stroke-width="1" stroke-dasharray="3 4" opacity="0.9"/><text x="50.0" y="244.0" text-anchor="start" font-size="11" opacity="0.72" fill="currentColor">DSpark 的两个改进 + 调度状态</text><rect x="70.0" y="255.0" width="260.0" height="50.0" rx="9" fill="currentColor" fill-opacity="0.13" stroke="currentColor" stroke-width="1.4"/><text x="200.0" y="277.0" text-anchor="middle" font-size="13" fill="currentColor">① 用大模型的内部状态</text><text x="200.0" y="294.0" text-anchor="middle" font-size="11" opacity="0.72" fill="currentColor">给小助手当参考，猜得更准</text><rect x="470.0" y="255.0" width="240.0" height="50.0" rx="9" fill="currentColor" fill-opacity="0.13" stroke="currentColor" stroke-width="1.4"/><text x="590.0" y="277.0" text-anchor="middle" font-size="13" fill="currentColor">② 预算调度器</text><text x="590.0" y="294.0" text-anchor="middle" font-size="11" opacity="0.72" fill="currentColor">决定这一轮该猜多长</text><rect x="85.0" y="314.0" width="230.0" height="44.0" rx="9" fill="currentColor" fill-opacity="0.03" stroke="currentColor" stroke-width="1.4" stroke-dasharray="5 4"/><text x="200.0" y="333.0" text-anchor="middle" font-size="13" fill="currentColor">低并发：猜长一些</text><text x="200.0" y="350.0" text-anchor="middle" font-size="11" opacity="0.72" fill="currentColor">预算扩到 4–6 个</text><rect x="475.0" y="314.0" width="230.0" height="44.0" rx="9" fill="currentColor" fill-opacity="0.03" stroke="currentColor" stroke-width="1.4" stroke-dasharray="5 4"/><text x="590.0" y="333.0" text-anchor="middle" font-size="13" fill="currentColor">高并发：收缩预算</text><text x="590.0" y="350.0" text-anchor="middle" font-size="11" opacity="0.72" fill="currentColor">别让单个用户占满卡</text><text x="400.0" y="372.0" text-anchor="middle" font-size="12" opacity="0.85" fill="currentColor">关键约束：做决定时不许偷看未来，否则「无损」就不成立</text></svg>
+<svg viewBox="0 0 800 380" width="100%" style="max-width:800px;margin:0 auto" role="img" xmlns="http://www.w3.org/2000/svg"><defs><marker id="ah-d15" markerWidth="9" markerHeight="9" refX="7.2" refY="3.2" orient="auto"><path d="M0,0 L8,3.2 L0,6.4 z" fill="currentColor"/></marker></defs><text x="400.0" y="20.0" text-anchor="middle" font-size="14" font-weight="bold" fill="currentColor">投机解码：先猜后批，只快不笨</text><rect x="35.0" y="55.0" width="150.0" height="50.0" rx="9" fill="currentColor" fill-opacity="0.03" stroke="currentColor" stroke-width="1.4" stroke-dasharray="5 4"/><text x="110.0" y="77.0" text-anchor="middle" font-size="13" fill="currentColor">小助手</text><text x="110.0" y="94.0" text-anchor="middle" font-size="11" opacity="0.72" fill="currentColor">快的模型（草稿）</text><rect x="250.0" y="55.0" width="180.0" height="50.0" rx="9" fill="currentColor" fill-opacity="0.13" stroke="currentColor" stroke-width="1.4"/><text x="340.0" y="77.0" text-anchor="middle" font-size="13" fill="currentColor">一口气猜 k 个词元</text><text x="340.0" y="94.0" text-anchor="middle" font-size="11" opacity="0.72" fill="currentColor">它不负责最终正确</text><rect x="505.0" y="55.0" width="190.0" height="50.0" rx="9" fill="currentColor" fill-opacity="0.13" stroke="currentColor" stroke-width="1.4"/><text x="600.0" y="77.0" text-anchor="middle" font-size="13" fill="currentColor">大模型并行批改</text><text x="600.0" y="94.0" text-anchor="middle" font-size="11" opacity="0.72" fill="currentColor">一次验证全部候选</text><line x1="187.0" y1="80.0" x2="248.0" y2="80.0" stroke="currentColor" stroke-width="1.4" marker-end="url(#ah-d15)"/><line x1="432.0" y1="80.0" x2="503.0" y2="80.0" stroke="currentColor" stroke-width="1.4" marker-end="url(#ah-d15)"/><rect x="505.0" y="151.0" width="190.0" height="48.0" rx="9" fill="currentColor" fill-opacity="0.06" stroke="currentColor" stroke-width="1.4"/><text x="600.0" y="172.0" text-anchor="middle" font-size="13" fill="currentColor">接受前缀</text><text x="600.0" y="189.0" text-anchor="middle" font-size="11" opacity="0.72" fill="currentColor">第一个错处就截断</text><line x1="600.0" y1="107.0" x2="600.0" y2="150.0" stroke="currentColor" stroke-width="1.4" marker-end="url(#ah-d15)"/><rect x="215.0" y="151.0" width="210.0" height="48.0" rx="9" fill="currentColor" fill-opacity="0.06" stroke="currentColor" stroke-width="1.4"/><text x="320.0" y="172.0" text-anchor="middle" font-size="13" fill="currentColor">把已接受的接到末尾</text><text x="320.0" y="189.0" text-anchor="middle" font-size="11" opacity="0.72" fill="currentColor">错的丢掉，从那里重来</text><line x1="503.0" y1="175.0" x2="427.0" y2="175.0" stroke="currentColor" stroke-width="1.4" marker-end="url(#ah-d15)"/><polyline points="215.0,175.0 60.0,175.0 60.0,175.0 320.0,175.0" fill="none" stroke="currentColor" stroke-width="1.4" stroke-dasharray="6 4" marker-end="url(#ah-d15)"/><text x="60.0" y="179.0" text-anchor="end" font-size="11" opacity="0.78" fill="currentColor">循环</text><text x="400.0" y="214.0" text-anchor="middle" font-size="12" opacity="0.82" fill="currentColor">为什么无损：最终每个词元都经过大模型认可，草稿只是「提议」</text><rect x="40.0" y="228.0" width="720.0" height="132.0" rx="10" fill="currentColor" fill-opacity="0.025" stroke="currentColor" stroke-width="1" stroke-dasharray="3 4" opacity="0.9"/><text x="50.0" y="244.0" text-anchor="start" font-size="11" opacity="0.72" fill="currentColor">DSpark 的两个改进 + 调度状态</text><rect x="70.0" y="255.0" width="260.0" height="50.0" rx="9" fill="currentColor" fill-opacity="0.13" stroke="currentColor" stroke-width="1.4"/><text x="200.0" y="277.0" text-anchor="middle" font-size="13" fill="currentColor">① 用大模型的内部状态</text><text x="200.0" y="294.0" text-anchor="middle" font-size="11" opacity="0.72" fill="currentColor">给小助手当参考，猜得更准</text><rect x="470.0" y="255.0" width="240.0" height="50.0" rx="9" fill="currentColor" fill-opacity="0.13" stroke="currentColor" stroke-width="1.4"/><text x="590.0" y="277.0" text-anchor="middle" font-size="13" fill="currentColor">② 预算调度器</text><text x="590.0" y="294.0" text-anchor="middle" font-size="11" opacity="0.72" fill="currentColor">决定这一轮该猜多长</text><rect x="85.0" y="314.0" width="230.0" height="44.0" rx="9" fill="currentColor" fill-opacity="0.03" stroke="currentColor" stroke-width="1.4" stroke-dasharray="5 4"/><text x="200.0" y="333.0" text-anchor="middle" font-size="13" fill="currentColor">低并发：猜长一些</text><text x="200.0" y="350.0" text-anchor="middle" font-size="11" opacity="0.72" fill="currentColor">预算扩到 4–6 个</text><rect x="475.0" y="314.0" width="230.0" height="44.0" rx="9" fill="currentColor" fill-opacity="0.03" stroke="currentColor" stroke-width="1.4" stroke-dasharray="5 4"/><text x="590.0" y="333.0" text-anchor="middle" font-size="13" fill="currentColor">高并发：收缩预算</text><text x="590.0" y="350.0" text-anchor="middle" font-size="11" opacity="0.72" fill="currentColor">别让单个用户占满卡</text><text x="400.0" y="372.0" text-anchor="middle" font-size="12" opacity="0.85" fill="currentColor">关键约束：做决定时不许偷看未来，否则「无损」就不成立</text></svg>
 <p style="text-align:center;font-size:13px;opacity:.7;margin:8px 0 0">投机解码循环与 DSpark 的调度状态；1 + p 决定每轮期望产出</p>
 </div>
 
@@ -35,9 +37,9 @@ description : "投机解码为什么无损、接受长度怎么算、DSpark 的�
 
 - **大模型 = 总编**：水平最高，但很忙、很慢，每做一个决定要很久。
 - **小助手 = 实习生**：水平差一些，但快得多。
-- **流程**：实习生先一口气写好 5 个词 → 总编拿着这 5 个词**一次性校对**（因为校对是并行的，很快）→ 前面几个对了就全部采纳，错了就从错的地方重来。
+- **流程**：实习生先一口气写好 5 个词元 → 总编拿着这 5 个词元**一次性校对**（因为校对是并行的，很快）→ 前面几个对了就全部采纳，错了就从错的地方重来。
 
-**为什么这是"无损"的？** 因为最后留下的每一个词，都是大模型自己"批改通过"的。**实习生的草稿不会降低输出质量**——他猜得准就赚，猜不准就退回总编自己写。**这是这套方法最漂亮的性质：它只可能让你更快，不可能让你变笨。**
+**为什么这是"无损"的？** 因为最后留下的每一个词元，都是大模型自己"批改通过"的。**实习生的草稿不会降低输出质量**——他猜得准就赚，猜不准就退回总编自己写。**这是这套方法最漂亮的性质：它只可能让你更快，不可能让你变笨。**
 
 > 严格说，"认可"不是逐个签字。批改用的是拒绝采样规则 `min(1, p_target / p_draft)`：草稿这一位置的概率若不低于大模型就留下，否则以一定概率改写成大模型的版本。这样处理之后，**最终输出分布与"让大模型独立生成"完全一致**——这就是"无损"的技术含义。
 >
@@ -51,7 +53,7 @@ description : "投机解码为什么无损、接受长度怎么算、DSpark 的�
 
 ## 三、一个小数字游戏：为什么值得做
 
-假设助手一次猜 5 个词，平均有 **85%** 的猜中率（这是论文里 MTP 模块报告过的水平）。
+假设助手一次猜 5 个词元，平均有 **85%** 的猜中率——**先说清楚这个数的身份，再往下算**：它是 V3 那篇论文在 MTP 模块上报告过的水平（§5.4.3 的口径是 85%–90%），**是那一篇在它自己场景下的测量，不是常数**。第四节会看到：同一个方法在数学上是 0.88、代码上 0.87、开放聊天上只有 0.72——所以下面所有算式都只是"如果每步都是 0.85 会怎样"的示范，不是预测。
 
 - 猜中 1 个的概率：0.85
 - 连中 2 个：0.85 × 0.85 ≈ 0.72
@@ -67,7 +69,7 @@ description : "投机解码为什么无损、接受长度怎么算、DSpark 的�
 
 > 顺带把这一列算准：0.85²=0.7225、³=0.6141、⁴=0.5220、⁵=0.4437，六项相加 **4.1523 ≈ 4.15**。这是**自己除一遍**的实例——同一条公式，凭印象写会写成 4.14 或把项数写错。
 
-这是**"只猜 1 个"**这个特例下的算式：每轮固定产出 **1 + p**（p 是猜中率），所以 p=0.85 时每轮 1.85 个词。
+这是**"只猜 1 个"**这个特例下的算式：每轮固定产出 **1 + p**（p 是猜中率），所以 p=0.85 时每轮 1.85 个词元。
 
 猜多个时公式要换：每轮产出是 **1 + Σaⱼ**，其中 aⱼ 是"前 j−1 个全猜中、第 j 个也猜中"的**前缀存活概率**。因为位置越靠后越不准，aⱼ 是递减的——所以上面这条 4.15 的衰减和是**主动承认越往后越猜不中**，不是粗算。
 
@@ -105,7 +107,7 @@ DSpark 在这一步只做了一个小改动：让草稿模型把"当前位置"�
 
 这是 DSpark 最有意思的地方。
 
-传统做法是：每次都让助手猜固定的几个词（比如每次 5 个）。**但内容有难易**：写代码、做数学题时，套路明显，助手能猜得很远；闲聊时每一句都难以预测，猜长了纯属浪费。
+传统做法是：每次都让助手猜固定的几个词元（比如每次 5 个）。**但内容有难易**：写代码、做数学题时，套路明显，助手能猜得很远；闲聊时每一句都难以预测，猜长了纯属浪费。
 
 DSpark 加了一个调度器，它最大化的不是"产出长度"，而是 **Θ = 时延比例 τ × 每轮有效产出**：把所有候选位置按"存活概率 × 收益"排好序，**从最大的开始准入**，一旦再加一个位置就不再增加 Θ 就停。批容量在这里是**隐式约束**（并发高时 τ 变大，自动少准入），不是另外单独设的一道预算。
 
@@ -133,9 +135,9 @@ DSpark 加了一个调度器，它最大化的不是"产出长度"，而是 **Θ
 
 论文报告了两组结果：
 
-**离线实验**（标准基准、可复现）：在三种不同大小的模型上对比已有方案，**"每轮平均采纳长度"提升 26%–31%**（对比鹰派方案）（相对另一方案 16%–18%）。而且提到一个重要发现：**用 2 层的小助手就超过了对方 5 层的方案**（口径要说准：这三个数是**相对提升**——把 DSpark 与 Eagle3、DFlash 在三个规模上各取宏平均接受长度再算 (τ_D−τ_E)/τ_E，得到 vs Eagle3 **+30.9% / +26.7% / +30.0%**、vs DFlash **+16.3% / +18.4% / +18.3%**。**它们是"提升了百分之多少"，不是"对方本身有多高"**——这两个数不能互相推。）。但要注意归因：**那两组方案都喂了内部状态**，2 层胜过 5 层的差别在草稿结构（半自回归），不是"喂没喂内部状态"的区别。另外"可复现"要加限定：关掉调度器、固定块长；且接受率本身会随任务领域、目标模型版本、训练数据漂移，**1.8× 这种倍数不能当常数引用**。
+**离线实验**（标准基准、可复现）：在三种不同大小的模型上对比已有方案，**"每轮平均采纳长度"提升 26%–31%**（对比鹰派方案）（相对另一方案 16%–18%）。而且提到一个重要发现：**用 2 层的小助手就超过了对方 5 层的方案**（口径要说准：这三个数是**相对提升**——把 DSpark 与 Eagle3、DFlash 在三个规模上各取宏平均接受长度再算 (τ_D−τ_E)/τ_E，得到 vs Eagle3 **+30.9% / +26.7% / +30.0%**、vs DFlash **+16.3% / +18.4% / +18.3%**。**它们是"提升了百分之多少"，不是"对方本身有多高"**——这两个数不能互相推。）。但要注意归因：**那两组方案都喂了内部状态**，2 层胜过 5 层的差别在草稿结构（半自回归），不是"喂没喂内部状态"的区别。另外"可复现"要加限定：关掉调度器、固定块长；且**接受率本身会随任务领域、目标模型版本、训练数据漂移**——同一篇论文里，DFlash 那条曲线上数学第 1 个位置 0.88、代码 0.87、开放聊天只有 0.72（DSpark 自己的数学起点是 0.93，别把两条曲线混起来读），**换一个域就是另一个数，所以任何"猜中率"都必须带着域、带着是哪条曲线一起说**。
 
-同时给出了**领域差异**：数学题 5.57 个词、代码 5.12 个词、开放聊天只有 3.49 个词（同一个模型）。**同一个方法，在不同任务上效果差一倍——这就是为什么值得加调度器。**
+同时给出了**领域差异**：数学题 5.57 个词元、代码 5.12 个词元、开放聊天只有 3.49 个词元（同一个模型）。**同一个方法，在不同任务上效果差一倍——这就是为什么值得加调度器。**
 
 **生产环境的第二个故事：调度器为什么不照数学最优做。** 这是本篇最该讲、却最容易被跳过的一段——它告诉我们"论文里的最优解"和"真实机器上的可行解"是怎么分家的。
 
@@ -170,7 +172,7 @@ DSpark 加了一个调度器，它最大化的不是"产出长度"，而是 **Θ
 
 回头看，这是一条漂亮的演进链：
 
-1. **V3 训练时**：加了一个 MTP 模块（多词元预测），目标是**让训练更省数据**——一次预测多个词，学习信号更密。（出处是 V3 §5.4.3：MTP 接受率 85%–90%。这个数**是那一篇在它自己场景下的测量，不是常数**。）而 MTP 在 V3 的消融里其实被判定为**没有收益、推理时被舍弃**，后来才被重新定位成草稿模型——"训练侧的副产品变成推理侧的主力"这件事比第九节说的还要曲折一层。
+1. **V3 训练时**：加了一个 MTP 模块（多词元预测），目标是**让训练更省数据**——一次预测多个词元，学习信号更密。（出处是 V3 §5.4.3：MTP 接受率 85%–90%。**这个数是那一篇在它自己场景下的测量，不是常数**——换个模型规模、换个任务域，接受率就是另一回事，本篇下面第四节的分域数字就是证据。）而 MTP 在 V3 的消融里其实**在训练侧拿到的收益并不薄**：Table 4 的小号模型上 HumanEval 从 20.7 涨到 26.8（+6.1）、GSM8K +6.0，大号模型上 HumanEval +9.2、DROP +2.1，代价是 MMLU −0.9——**它不是"没有收益"，而是"推理期被舍弃"**：论文的注解除掉仅部署时的成本项，"推理期丢弃 MTP，成本严格对齐"。所以后来的故事不是"废料翻身"，而是**"一个训练侧有效、但推理侧代价不划算的模块，等到专门的硬件和调度出现后，才被重新定价"**——这比"副产品变主角"曲折得多，也更接近真实的技术史。
 2. **DSpark**：把这个**副作用变成了主产品**——专门为推理服务设计，加了置信度调度和更聪明的验证。
 
 **但两篇的算术同源（同一条接受长度公式），它们的性能数字绝对不能互相引用。** 一个是训练指标的副产品，一个是真实用户流量下的服务指标——**分母、场景、测量方式都不同**（第十二篇的"分母结构"那一关再次适用）。
@@ -192,7 +194,7 @@ DSpark 加了一个调度器，它最大化的不是"产出长度"，而是 **Θ
 
 **一句话总结：** 投机解码让快而差的小助手先猜、慢而准的大模型并行批改，猜对就白赚；DSpark 的两个真改进是**半自回归草稿**和**置信度序贯准入**（喂内部状态是它基线已有的设计），在真实流量下把生成速度提升 60%–85%（内部遥测口径，SLA 分别为 80/35）。
 
-**记住这个数字：** 0.85 → 每轮约 1.85 个词（这只对"每次只猜 1 个"成立；猜多个要用 1 + Σaⱼ，aⱼ 递减）。同一条接受长度公式同时出现在训练侧的 MTP 和推理侧的 DSpark 里，但两边的性能数字不可互引。
+**记住这个数字：** 0.85 → 每轮约 1.85 个词元（这只对"每次只猜 1 个"成立；猜多个要用 1 + Σaⱼ，aⱼ 递减）。同一条接受长度公式同时出现在训练侧的 MTP 和推理侧的 DSpark 里，但两边的性能数字不可互引。
 
 **记住这个边界：** "贪心准入最优"只在 Θ 单峰时成立——真实曲线是锯齿，所以生产用了两步近似。
 

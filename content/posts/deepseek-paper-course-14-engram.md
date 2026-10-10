@@ -1,9 +1,9 @@
 ---
-title : 'DeepSeek 论文课（十四）：让模型"查表"记住知识：Engram 记忆'
-date : 2026-09-30T16:52:00+08:00
-categories : ["DeepSeek"]
-tags : ["deepseek","ai论文","系列","Engram","记忆"]
-description : "把一部分知识『查出来』而不是『算出来』：哈希查表、门控融合，代价是查表系统占约 3%；它不解决多步推理。"
+title: 'DeepSeek 论文课（十四）：让模型"查表"记住知识：Engram 记忆'
+date: 2026-09-30T16:52:00+08:00
+categories: ["DeepSeek"]
+tags: ["deepseek","ai论文","系列","Engram","记忆"]
+description: "把一部分知识『查出来』而不是『算出来』：哈希查表、门控融合，代价是查表系统占约 3%；它不解决多步推理。"
 ---
 
 # 让模型"查表"记住知识：Engram 记忆

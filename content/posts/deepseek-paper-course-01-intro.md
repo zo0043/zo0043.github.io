@@ -1,9 +1,9 @@
 ---
-title : 'DeepSeek 论文课（一）：为什么值得花时间读 DeepSeek 的论文'
-date : 2026-09-30T16:20:00+08:00
-categories : ["DeepSeek"]
-tags : ["deepseek","ai论文","系列","学习方法"]
-description : "四个阶段、三条主线，用 31 篇可核验的论文看懂 DeepSeek『用更少算力做同样的事』的研究路线，以及它为什么敢公开自己的不足。"
+title: 'DeepSeek 论文课（一）：为什么值得花时间读 DeepSeek 的论文'
+date: 2026-09-30T16:20:00+08:00
+categories: ["DeepSeek"]
+tags: ["deepseek","ai论文","系列","学习方法"]
+description: "四个阶段、三条主线，用 31 篇可核验的论文看懂 DeepSeek『用更少算力做同样的事』的研究路线，以及它为什么敢公开自己的不足。"
 ---
 
 # 为什么值得花时间读 DeepSeek 的论文
@@ -22,7 +22,7 @@ description : "四个阶段、三条主线，用 31 篇可核验的论文看懂 
 >
 > 这个约定是系列第十二篇"怎么判断一个数字值不值得信"的基础，看到后面忘了，回来看一眼。
 
-## 一、这套论文讲了两年半的连续故事
+## 一、这套论文讲了两年九个月的连续故事
 
 <div style="margin:22px 0">
 <svg viewBox="0 0 780 300" width="100%" style="max-width:780px;margin:0 auto" role="img" xmlns="http://www.w3.org/2000/svg"><defs><marker id="ah-d01" markerWidth="9" markerHeight="9" refX="7.2" refY="3.2" orient="auto"><path d="M0,0 L8,3.2 L0,6.4 z" fill="currentColor"/></marker></defs><text x="390.0" y="20.0" text-anchor="middle" font-size="14" font-weight="bold" fill="currentColor">四段演化与三条主线</text><rect x="32.5" y="44.0" width="155.0" height="52.0" rx="9" fill="currentColor" fill-opacity="0.06" stroke="currentColor" stroke-width="1.4"/><text x="110.0" y="67.0" text-anchor="middle" font-size="13" fill="currentColor">2024 上半</text><text x="110.0" y="84.0" text-anchor="middle" font-size="11" opacity="0.72" fill="currentColor">先算账：钱该花在哪</text><rect x="215.8" y="44.0" width="155.0" height="52.0" rx="9" fill="currentColor" fill-opacity="0.06" stroke="currentColor" stroke-width="1.4"/><text x="293.3" y="67.0" text-anchor="middle" font-size="13" fill="currentColor">2024 下半</text><text x="293.3" y="84.0" text-anchor="middle" font-size="11" opacity="0.72" fill="currentColor">拼便宜零件</text><rect x="399.2" y="44.0" width="155.0" height="52.0" rx="9" fill="currentColor" fill-opacity="0.06" stroke="currentColor" stroke-width="1.4"/><text x="476.7" y="67.0" text-anchor="middle" font-size="13" fill="currentColor">2025</text><text x="476.7" y="84.0" text-anchor="middle" font-size="11" opacity="0.72" fill="currentColor">让模型学会「想」</text><rect x="582.5" y="44.0" width="155.0" height="52.0" rx="9" fill="currentColor" fill-opacity="0.06" stroke="currentColor" stroke-width="1.4"/><text x="660.0" y="67.0" text-anchor="middle" font-size="13" fill="currentColor">2026</text><text x="660.0" y="84.0" text-anchor="middle" font-size="11" opacity="0.72" fill="currentColor">效率极限 + 开新方向</text><line x1="188.0" y1="70.0" x2="215.3" y2="70.0" stroke="currentColor" stroke-width="1.4" marker-end="url(#ah-d01)"/><line x1="371.3" y1="70.0" x2="398.7" y2="70.0" stroke="currentColor" stroke-width="1.4" marker-end="url(#ah-d01)"/><line x1="554.7" y1="70.0" x2="582.0" y2="70.0" stroke="currentColor" stroke-width="1.4" marker-end="url(#ah-d01)"/><rect x="40" y="134" width="700" height="32" rx="6" fill="currentColor" fill-opacity="0.1" stroke="currentColor" stroke-width="1" /><text x="58.0" y="154.0" text-anchor="start" font-size="12" fill="currentColor">省：用更少计算做同样的事</text><rect x="40" y="180" width="700" height="32" rx="6" fill="currentColor" fill-opacity="0.06" stroke="currentColor" stroke-width="1" /><text x="58.0" y="200.0" text-anchor="start" font-size="12" fill="currentColor">判断对错：从对错 → 自己当裁判</text><rect x="40" y="226" width="700" height="32" rx="6" fill="currentColor" fill-opacity="0.06" stroke="currentColor" stroke-width="1" /><text x="58.0" y="246.0" text-anchor="start" font-size="12" fill="currentColor">读数字：同一件事不同口径能差几倍</text><text x="390.0" y="288.0" text-anchor="middle" font-size="12" opacity="0.7" fill="currentColor">三条线在最新一代模型上汇合</text></svg>
@@ -31,7 +31,7 @@ description : "四个阶段、三条主线，用 31 篇可核验的论文看懂 
 
 
 
-从 2023 年 10 月到 2026 年 9 月，本文系列收录并逐篇核验了 DeepSeek 的 31 篇论文报告（范围说明见第五节）。它们不是零散的成果，而是一条能连起来的线：
+从 2023 年 10 月到 2026 年 9 月，本文系列收录并逐篇核验了 DeepSeek 的 31 篇论文报告（范围说明见第五节）。**要说清一件事：深读了 31 篇，不等于每篇的数字都进了正文**——各篇文末「原文出处」列出的 arXiv 编号才是那篇文章真正取数的来源，其余论文只作背景。它们不是零散的成果，而是一条能连起来的线：
 
 1. **2024 年上半年：先搞清楚钱该花在哪。** 与其急着造大模型，他们先做小规模实验，研究"参数、数据、算力怎么分配最划算"。
 2. **2024 年中到年底：把便宜的零件拼起来。** 用更省显存的注意力机制、更省的专家结构，堆出一个很强但成本可控的模型。
@@ -48,7 +48,7 @@ description : "四个阶段、三条主线，用 31 篇可核验的论文看懂 
 
 举个具体的例子。"KV cache"（可以理解成模型读长文章时做的读书笔记）占用的内存，会随着文章变长而暴涨。DeepSeek 的一系列论文就在解决这个问题：2024 年年中（DeepSeek-V2）的方案是 MLA——每个词元要在 60 层各存 576 个数字，合起来每个词 34,560 个数字；到 2026 年的 V4.1-Flash，全模型只剩 4 层需要存主笔记，每词 2.5 条、每条 512 个数字。
 
-> **注意这个数字的前提：** 上面两个数看着差了一百多倍，但那是因为**单位不同**——576 是"每层每词元"，2.5 条是"全模型每词元"，而且 2.5 条的每条仍是一小本 512 通道的压缩笔记。换成同一把尺子：V2 每词 34,560 个数字，V4.1 每词 2.5 × 512 = 1,280 个数字，约 **27 倍**；按字节算（V4.1 的 890 字节/词元）约 **44～78 倍**，取决于跟哪一代比。**"2.5 条"是相对 DeepSeek 自己的最新模型而言，不是所有模型通用。换个模型、换个比较对象、换个单位，数字就不同。** 这是本系列会反复强调的一件事：论文里任何一个数字，都必须问"跟谁比、在什么条件下、用什么单位"。
+> **注意这个数字的前提：** 上面两个数看着差了两百多倍（那是拿「每层 576 个数」和「全模型 2.5 条」直接比的结果），但那是因为**单位不同**——576 是"每层每词元"，2.5 条是"全模型每词元"，而且 2.5 条的每条仍是一小本 512 通道的压缩笔记。换成同一把尺子：V2 每词 34,560 个数字，V4.1 每词 2.5 × 512 = 1,280 个数字，约 **27 倍**；按字节算（V4.1 的 890 字节/词元）约 **39～78 倍**——**这两个倍数只在 V2 侧换精度，V4.1 那一端都是按论文实际的 890 字节**（那个 890 本身就是含 FP4 主笔记的混合精度口径，不是纯 FP8）：34,560 ÷ 890 ≈ **38.8** 是 V2 按 FP8 每数字 1 字节、34,560 × 2 ÷ 890 ≈ **77.7** 是 V2 按 BF16 每数字 2 字节。**别把 39 倍读成"两边都 FP8"**——真按两边 FP8 算是 34,560 ÷ 1,280 = **27.0 倍**，正是同一句里刚给过的那个数。若跟最早的 DeepSeek-V1（即 DeepSeek LLM 67B 稠密基座，BF16、GQA-8）比，则是 **437 倍**（194,560 × 2 ÷ 890）。**"2.5 条"是相对 DeepSeek 自己的最新模型而言，不是所有模型通用。换个模型、换个比较对象、换个单位、换个精度，数字就不同。** 这是本系列会反复强调的一件事：论文里任何一个数字，都必须问"跟谁比、在什么条件下、用什么单位"。
 
 看懂这一串演化，你就理解了 AI 里最核心的一种思维方式：**把一个昂贵的东西，拆开，找到真正贵的环节，然后只在那里省钱。**
 
@@ -56,7 +56,7 @@ description : "四个阶段、三条主线，用 31 篇可核验的论文看懂 
 
 2026 年 4 月的 V4 报告里，作者明确写了一段话，大意是：**我们比最强的对手落后 3 到 6 个月。**（注意这是**作者自评**，没有外部锚点。）
 
-很少有公司会在自己的论文里这么写。而在 2026 年 9 月的 V4.1-Flash 报告里是另一种诚实：测试表格显示新模型在自己的上一代面前**4 胜 12 负**，同时官方新闻稿的措辞比论文正文更激进——论文说"相当、部分任务更好"，新闻稿说"领先"。
+很少有公司会在自己的论文里这么写。而在 2026 年 9 月的 V4.1-Flash 报告里是另一种诚实：测试表格（表 1，Base 模型）显示，论文按"分差 ≤0.3 视为同水平"的规则自己判——对 **V4-Pro-Base 是 4 胜 12 负**（世界知识 SimpleQA −12.9、长上下文 LongBench-V2 −6.3 落后最多），但对**同一条产品线的上一代 V4-Flash-Base 是 11 胜 4 负 1 平**。同时官方新闻稿的措辞比论文正文更激进——论文说"相当、部分任务更好"，新闻稿说"领先"。**所以"新模型在上一代面前输"这句话在 Flash 线上并不成立，只有拿更大的 V4-Pro 当对手时才成立——这正是引用基准数字时最该先问清的那件事。**
 
 对读者来说这是好事：**当一份材料愿意暴露自己的弱点时，它的其他数字也更值得信任。** 本系列会专门用一篇讲"怎么读论文里的数字"，把这种判断方法教给你。
 
@@ -95,7 +95,7 @@ description : "四个阶段、三条主线，用 31 篇可核验的论文看懂 
 
 **一句话总结：** DeepSeek 的论文是一条"如何用更少算力做到更强"的连续故事，而且作者愿意承认自己的不足——这两点让它比单纯的成绩通报更值得读。
 
-**记住这个数字：** 31 篇，2023 年 10 月到 2026 年 9 月——其中语言模型主线从 2024 年 1 月起，只有三年。
+**记住这个数字：** 31 篇，从 2023 年 10 月到 2026 年 9 月共 **1,058 天，约两年九个月**；其中语言模型主线从 2024 年 1 月起是 986 天，约两年八个月。
 
 **记住这个方法：** 任何一个数字先问三件事——跟谁比、什么条件、什么单位。三个里缺一个，这个数字就不能用。
 

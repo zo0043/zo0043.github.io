@@ -1,9 +1,9 @@
 ---
-title : 'DeepSeek 论文课（十三）：同样一万张卡，怎么花出两倍效果'
-date : 2026-09-30T16:50:00+08:00
-categories : ["DeepSeek"]
-tags : ["deepseek","ai论文","系列","系统与成本"]
-description : "557.6 万美元怎么算出来的、又为什么不等于『训练成本』：2,788K 卡时分项相加、通信藏进计算，以及被排除在外的部分。"
+title: 'DeepSeek 论文课（十三）：同样一万张卡，怎么花出两倍效果'
+date: 2026-09-30T16:50:00+08:00
+categories: ["DeepSeek"]
+tags: ["deepseek","ai论文","系列","系统与成本"]
+description: "557.6 万美元怎么算出来的、又为什么不等于『训练成本』：2,788K 卡时分项相加、通信藏进计算，以及被排除在外的部分。"
 ---
 
 # 同样一万张卡，怎么花出两倍效果
@@ -147,7 +147,7 @@ DeepSeek 的做法叫**双向流水线**：把一整套训练流程切成很多�
 
 - Fire-Flyer AI-HPC 论文：[arXiv:2408.14158v2](https://arxiv.org/abs/2408.14158)
 - DeepSeek-V3 技术报告：[arXiv:2412.19437v2](https://arxiv.org/abs/2412.19437)
-- 正文引用的优化线索来自《Insights into DeepSeek-V3: Scaling Challenges and Reflections on Hardware for AI Architectures》（arXiv:2505.09343），它给出"MoE 推理速度上界由互连带宽而非算力决定"这一判断
+- 正文引用的优化线索来自《Insights into DeepSeek-V3: Scaling Challenges and Reflections on Hardware for AI Architectures》（[arXiv:2505.09343v2](https://arxiv.org/abs/2505.09343)），它给出"MoE 推理速度上界由互连带宽而非算力决定"这一判断——**这条结论出自 v2 重写后的 §2.3.2**（v1 那一版写的是 "a theoretical upper limit of over 0.82 ms TPOT"，是自相矛盾的病句；v2 改成 "assuming perfect overlap... does not account for the substantial drop in GPU efficiency at small batch sizes"）。引用工程结论时**认 v2，不认 v1**
 
 > **关于本篇的机制名：** 正文里只讲了五个官方部件的**功能**（CPU 端规约、跨机通信、存储、流水线、NVLink 桥）。它们的正式名字分别是 HFReduce、HaiScale、3FS、DualPipe、NVLink Bridge——本篇按"讲清做什么"取舍，没有逐个报名字。若要查原文，用上面的 arXiv ID + 论文第九节。
 
