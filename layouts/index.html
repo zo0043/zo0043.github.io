@@ -38,7 +38,30 @@
   <div class="home-posts-list">
     {{- $pages := where site.RegularPages "Type" "in" site.Params.mainSections | default (where site.RegularPages "Section" "posts") }}
     {{- $pages = where $pages "Params.hiddenInHomeList" "!=" "true" }}
-    {{- $pages = first 5 $pages }}
+    {{- $pages = sort $pages "Date" "desc" }}
+
+    {{- /* 系列文章折叠成一条入口。
+           15 篇论文课共用 2026-09-30 一天发布，直接 `first 5` 会按时间倒序从
+           「（十五）」一路排到「（十一）」——访客落地首页第一眼看到的是系列尾部，
+           不是入口。这里按 tags 里的「系列」识别系列（与 layouts/_default/series.html
+           同一约定），只保留 ContentBaseName 最小的一篇（即导读 01），
+           其余 14 篇走已有的 /series/ 导读页入口。 */ -}}
+    {{- $series := where $pages "Params.tags" "intersect" (slice "系列") }}
+    {{- $seriesIntro := "" }}
+    {{- with $series }}
+      {{- $seriesIntro = (index (sort . "File.ContentBaseName") 0).File.ContentBaseName }}
+    {{- end }}
+    {{- $shown := slice }}
+    {{- range $pages }}
+      {{- if in (.Param "tags" | default slice) "系列" }}
+        {{- if and $seriesIntro (eq .File.ContentBaseName $seriesIntro) }}
+          {{- $shown = $shown | append . }}
+        {{- end }}
+      {{- else }}
+        {{- $shown = $shown | append . }}
+      {{- end }}
+    {{- end }}
+    {{- $pages = first 5 $shown }}
 
     {{- range $index, $page := $pages }}
     <article class="post-entry">
