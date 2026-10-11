@@ -37,12 +37,9 @@ languages:
         - name: 论文课
           pageRef: series/
           weight: 6 # DeepSeek 论文课系列导读，紧跟首页与归档
-        - name: 双链库
-          pageRef: wiki/
-          weight: 7 # 双链知识库，与博客文章分开演进
         - name: 逃生指南
           pageRef: escape/
-          weight: 8 # A股散户逃生指南：条目式清单，与双链库共用一套双链/反链索引
+          weight: 8 # A股散户逃生指南：条目式清单
         - name: 分类
           pageRef: categories/
           weight: 10
@@ -66,10 +63,11 @@ pagination:
   pagerSize: 10 # 每页展示的文章数量，这个没找到文档，应该是主题自己设置的
 
 params:
-  # 参与双链索引（[[…]]）的分区：这些分区的页面互为链接目标，反链也互相统计，
-  # 因此 /wiki/ 的条目可以直接被 /escape/ 的条目引用，反之亦然。
+  # 参与双链索引（[[…]]）的分区：这些分区的页面互为链接目标，反链也互相统计。
+  # 2026-10-11：双链库（/wiki/）整区删除，这里只剩逃生指南一个分区。
+  # 逃生指南内部条目之间仍用 [[…]] 互链、仍有反链面板。
   # 想再加一个双链分区，只在这里追加分区名即可（由 layouts/partials/link-sections.html 读取）。
-  linkSections: ["wiki", "escape"]
+  linkSections: ["escape"]
   env: production # to enable google analytics, opengraph, twitter-cards and schema.
   description: "zo0043 的个人主页 — 记录才能记忆，量变引发质变。"
   author: zo0043

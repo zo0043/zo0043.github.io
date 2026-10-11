@@ -70,7 +70,7 @@
   {{- if $url -}}
     {{- $html = printf `<a class="wl" data-rel="%s" href="%s">%s</a>` ($rel | htmlEscape) $url ($label | htmlEscape) -}}
   {{- else -}}
-    {{- $html = printf `<span class="wl wl-missing" title="双链库未收录">%s</span>` ($label | htmlEscape) -}}
+    {{- $html = printf `<span class="wl wl-missing" title="未收录">%s</span>` ($label | htmlEscape) -}}
   {{- end -}}
   {{- $work = replace $work $hit $html -}}
 {{- end -}}
