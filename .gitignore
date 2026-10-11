@@ -29,3 +29,16 @@ _testmain.go
 resources/_gen/
 /.obsidian/workspace.json
 /.obsidian/plugins/remember-cursor-position/
+
+# ---- Obsidian 编辑器产物：与 Hugo 构建无关，不进仓库 ----
+# 这个目录既是 Hugo 站点、也是 Obsidian 库。编辑器会往 .obsidian/ 里塞插件包、
+# 主题 CSS 和分词 wasm（合计 30MB+），clone 一次全都要拖下来，而 Hugo 一个都不读。
+# 只保留少量 .json 配置（appearance/core-plugins/community-plugins 等），让编辑器
+# 设置仍能跟着仓库走；插件本体交给 Obsidian 按需安装。
+/.obsidian/plugins/
+/.obsidian/themes/
+/.obsidian/snippets/
+/.obsidian/jieba_rs_wasm_bg.wasm
+# Smart Composer 的向量库/本地库：体积大且属于个人数据，不进公开仓库
+/.smtcmp_vector_db.tar.gz
+/.smtcmp_json_db/
