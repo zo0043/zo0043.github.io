@@ -33,14 +33,9 @@
 {{- $pages = site.RegularPages }}
 {{- end }}
 
-{{- /* 本站改动：双链分区（/wiki/、/escape/ …）的条目不进「文章归档」——归档是文章
-       时间线，知识库与指南各有自己的入口。名单来自 params.linkSections，新增双链分区
-       时不用改这里。
-       注意 ShowAllPagesInArchive: true 会绕过 mainSections，因此必须在这里显式排除；
-       否则给条目加上 date 后它会静默混进归档页。 */ -}}
-{{- range partialCached "link-sections.html" . }}
-{{- $pages = where $pages "Section" "ne" . }}
-{{- end }}
+{{- /* 2026-10-11：逃生指南拆为独立站点、双链库整区删除后，本站已没有需要从
+       「文章归档」里排除的双链分区，原先按 params.linkSections 过滤的循环随之删除。
+       ShowAllPagesInArchive 仍为 true，因此归档展示全部 RegularPages（文章、周刊、论文课）。 */ -}}
 
 {{- range $pages.GroupByPublishDate "2006" }}
 {{- if ne .Key "0001" }}

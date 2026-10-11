@@ -1,10 +1,10 @@
-{{- /* 本站改动（2026-10-11）：这是 PaperMod 主题 layouts/_default/rss.xml 的副本，
+{{- /* 本站改动：这是 PaperMod 主题 layouts/_default/rss.xml 的副本，
        只改了一处——主 feed（首页 /index.xml）只输出 params.mainSections（= posts），
-       不再把 /escape/、/wiki/ 的条目混进订阅流。
+       让订阅流保持为「文章」，不混入周刊与论文课。
 
-       原因：逃生指南 41 条、双链库条目会按日期排在文章前面，把博客订阅号变成清单流；
-       而首页（mainSections）与归档（按 params.linkSections 排除）都不含它们，
-       三处口径不一致。分区自己的 feed（/escape/index.xml、/wiki/index.xml）不受影响。
+       历史（2026-10-11 及以前）：这条改动原本还负责挡掉 /escape/ 的 41 条指南与
+       /wiki/ 双链库条目；两者现已分别拆为独立站点与整区删除，故该理由不再成立，
+       过滤逻辑本身保留（它仍在收敛到 posts）。
 
        维护提醒：主题升级后若要同步本文件，只需保留下面「本站改动」那一处 if。 */ -}}
 {{- /* Deprecate site.Author.email in favor of site.Params.author.email */}}

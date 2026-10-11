@@ -19,8 +19,6 @@
       {{ .Description }}
     </div>
     {{- end }}
-    {{- /* 指南条目（/escape/）在这一行渲染成本/收益/证据标签；普通文章无输出。 */ -}}
-    {{- partial "entry-tags.html" . }}
     {{- if not (.Param "hideMeta") }}
     <div class="post-meta">
       {{- partial "post_meta.html" . -}}
@@ -39,7 +37,7 @@
   {{- if .Content }}
   <div class="post-content">
     {{- if not (.Param "disableAnchoredHeadings") }}
-    {{- partial "wikilinks.html" (dict "page" . "content" (partial "anchored_headings.html" .Content)) | safeHTML -}}
+    {{- partial "anchored_headings.html" .Content | safeHTML -}}
     {{- else }}{{ .Content }}{{ end }}
   </div>
   {{- end }}
@@ -58,21 +56,6 @@
     {{- partial "share_icons.html" . -}}
     {{- end }}
   </footer>
-
-  {{- /* 双链库反链面板：只在本页被别的 wiki 条目引用时出现。
-         查表键用本页 RelPermalink——wiki-backlinks 按「引用解析到的属主页」聚合，
-         这样无论引用者写的是标题还是别名都能命中（曾因按标题查表而丢别名反链）。 */ -}}
-  {{- $bl := partialCached "wiki-backlinks.html" . }}
-  {{- with index $bl .RelPermalink }}
-  <aside class="backlinks">
-    <h2 class="backlinks-title">反链</h2>
-    <ul>
-      {{- range . }}
-      <li><a href="{{ .url }}">{{ .title }}</a></li>
-      {{- end }}
-    </ul>
-  </aside>
-  {{- end }}
 
   {{- if (.Param "comments") }}
   {{- partial "comments.html" . }}

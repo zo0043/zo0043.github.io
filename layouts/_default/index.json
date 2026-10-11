@@ -1,26 +1,9 @@
 {{- $.Scratch.Add "index" slice -}}
 {{- range site.RegularPages -}}
     {{- if and (not .Params.searchHidden) (ne .Layout `archives`) (ne .Layout `search`) }}
-    {{- /* 双链语法归一化：不能只对 .Plain 做正则替换。
-          兜底正则覆盖不到「语法示范」里的畸形写法（例如 [[目标|]]、[[目标::关系]]），
-          那些字面 [[…]] 会直接进搜索索引——而它们在正文里其实已被渲染成链接。
-          改为走与正文完全相同的管线再 plainify：解析结果与页面所见一致，
-          代码块/行内代码/转义写法也自动保持字面（不进索引的是代码内容本身）。
-          实测：26 篇普通文章上该式与原 .Plain 逐字节相同，只有 wiki 条目会变。 */ -}}
-    {{- $plain := partial "wikilinks.html" (dict "page" . "content" .Content) | plainify -}}
-    {{- /* 收尾清理：plainify 会把 <code> 里的示例也变成纯文字，所以代码块/转义里的
-           字面 [[…]] 仍会残留。这里（管线之后）再补一遍正则，把残留下的方括号
-           还原成可读文字，搜索索引里就不会出现字面 [[…]]。
-           顺序不能反：先管线才能让 [[目标|]] 这类畸形写法也归一。 */ -}}
-    {{- $plain = replaceRE `\[\[([^\]\|]+?)\|([^\]]+)\]\]` "$2" $plain -}}
-    {{- /* 空显示文字：[[目标|]] → 目标（上一条要求 | 后至少一个字符，覆盖不到） */ -}}
-    {{- $plain = replaceRE `\[\[([^\]\|]+?)\|[^\]]*\]\]` "$1" $plain -}}
-    {{- /* 带关系且无显示文字，或关系后跟空显示文字：[[目标::关系]] / [[目标::关系|]] → 目标 */ -}}
-    {{- $plain = replaceRE `\[\[([^\]\|]+?)::[^\]]*\]\]` "$1" $plain -}}
-    {{- $plain = replaceRE `\[\[([^\]\|]+?)\]\]` "$1" $plain -}}
-    {{- /* summary 是 HTML：必须走同一套双链渲染（内含代码保护），否则 [[…]] 会字面泄漏。 */ -}}
-    {{- $summary := partial "wikilinks.html" (dict "page" . "content" .Summary) -}}
-    {{- $.Scratch.Add "index" (dict "title" .Title "content" $plain "permalink" .Permalink "summary" $summary) -}}
+    {{- /* 2026-10-11：逃生指南拆为独立站点后，站内已无 [[…]] 双链写法，
+           原先那套「过双链管线再 plainify」的归一化随之删除，回归主题默认。 */ -}}
+    {{- $.Scratch.Add "index" (dict "title" .Title "content" .Plain "permalink" .Permalink "summary" .Summary) -}}
     {{- end -}}
 {{- end -}}
 {{- $.Scratch.Get "index" | jsonify -}}
