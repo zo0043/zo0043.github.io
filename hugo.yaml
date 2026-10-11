@@ -38,8 +38,8 @@ languages:
           pageRef: series/
           weight: 6 # DeepSeek 论文课系列导读，紧跟首页与归档
         - name: 逃生指南
-          url: "https://escape.zero43.top/"
-          weight: 8 # A股散户逃生指南：2026-10-11 拆为独立站点，此处只留外链入口
+          url: "https://blog.zero43.top/escape-guide/"
+          weight: 8 # A股散户逃生指南：独立仓库 zo0043/escape-guide，作为项目站点挂在主域子路径下
         - name: 分类
           pageRef: categories/
           weight: 10
