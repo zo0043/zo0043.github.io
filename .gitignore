@@ -40,5 +40,14 @@ resources/_gen/
 /.obsidian/snippets/
 /.obsidian/jieba_rs_wasm_bg.wasm
 # Smart Composer 的向量库/本地库：体积大且属于个人数据，不进公开仓库
+# （.smtcmp_vector_db.tar.gz 已于 2026-10-11 从工作区删除；历史里仍有 blob）
 /.smtcmp_vector_db.tar.gz
 /.smtcmp_json_db/
+
+# ---- 个人笔记与剪藏：正文不在本站发布，已迁到 vault-notes 分支 ----
+# note/ 与 Clippings/ 是 Obsidian 侧的素材（AI 提示词、SOP、摘抄），
+# Hugo 不读、也不进 public/。原本跟着 main 公开，现整棵移到 vault-notes 分支；
+# main 上忽略它们，但**本地工作区文件保留**（这个目录就是你的 Obsidian 库）。
+# 需要取回或继续用：git checkout vault-notes -- note Clippings
+/note/
+/Clippings/
